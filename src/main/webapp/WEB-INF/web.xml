@@ -4,6 +4,43 @@
 	xsi:schemaLocation="java.sun.com/xml/ns/javaee java.sun.com/xml/ns/javaee/web-app_3_0.xsd" 
 	version="3.0">
 
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>classpath*:/META-INF/spring/applicationContext.xml
+		classpath*:/META-INF/spring/applicationContext-security.xml
+		</param-value>
+	</context-param>
+
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener
+		</listener-class>
+	</listener>
+
+	<!--
+		The filter-mapping element specifies that the DelegatingFilterProxy is mapped to
+		all incoming web requests.
+		DelegatingFilterProxy filter delegates request processing to the Spring bean whose name
+		matches the filter-name element, springSecurityFilterChain. 
+
+		Spring Security parses the <http> element (which contains the web request security configuration)
+		and registers a bean named springSecurityFilterChain.
+
+		The springSecurityFilterChain is responsible for handling web request security.
+		The DelegatingFilterProxy filter delegates web requests handling to the springSecurityFilterChain bean.
+	-->
+
+	<filter>
+		<filter-name>springSecurityFilterChain</filter-name>
+		<filter-class>org.springframework.web.filter.DelegatingFilterProxy
+		</filter-class>
+	</filter>
+
+	<filter-mapping>
+		<filter-name>springSecurityFilterChain</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+
+
 	<servlet>
 		<servlet-name>hello</servlet-name>
 		<servlet-class>org.springframework.web.servlet.DispatcherServlet

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+	xmlns:beans="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd
+           http://www.springframework.org/schema/security
+           http://www.springframework.org/schema/security/spring-security.xsd">
+
+  <!--
+  	*** NOTE *** @TODO: Change the Roles during development
+  	ROLE_ADMIN
+  	ROLE_COACH
+  	ROLE_ATHLETE
+  -->
+
+	<http>
+		<intercept-url pattern="/**"
+			access="hasAnyRole('ROLE_CUSTOMER', 'ROLE_ADMIN')" />
+		<form-login />
+		<logout />
+		<remember-me />
+		<headers>
+			<cache-control />
+			<xss-protection />
+		</headers>
+	</http>
+
+	<!--
+		Spring Security's AuthenticationManager is responsible for processing the authentication request.
+		An AuthenticationManager is configured with one or more AuthenticationProviders, which are used by 
+		the AuthenticationManager to authenticate against.
+	
+		The security schema (used below) simplifies configuration of the AuthenticationManger and 
+		AuthenticationProvider objects.
+	
+		By default, the <authentication-provider> element configures a DaoAuthenticationProvider that uses
+		Spring's UserDetailsService as a DAO to load user details.
+		DaoAuthenticationProvider uses the configured UserDetailsService to load user details from the user
+		repository based on the supplied username.
+		The <user-service> element below provides an in-memory UserDetailsService that loads users defined
+		by the <user> elements.
+	-->
+
+
+	<authentication-manager>
+		<authentication-provider>
+			<user-service>
+				<user name="admin" password="admin" authorities="ROLE_ADMIN" />
+				<user name="cust1" password="cust1" authorities="ROLE_CUSTOMER" />
+				<user name="cust2" password="cust2" authorities="ROLE_CUSTOMER" />
+			</user-service>
+		</authentication-provider>
+	</authentication-manager>
+
+	<global-method-security secured-annotations="enabled" />
+</beans:beans>
+
+
+

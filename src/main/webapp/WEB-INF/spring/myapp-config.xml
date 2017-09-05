@@ -1,10 +1,21 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
+	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
 
-	<bean name="helloWorldController" class="com.fireduptech.springsecurity.HelloWorldController" />
+
+	<mvc:annotation-driven />
+
+	<context:component-scan base-package="com.fireduptech.springsecurity.web" />
+
+
+
+	<bean name="helloWorldController" class="com.fireduptech.springsecurity.web.HelloWorldController" />
 
 	<bean id="urlHandler"
 		class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">

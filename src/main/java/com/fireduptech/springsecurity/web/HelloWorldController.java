@@ -1,4 +1,4 @@
-package com.fireduptech.springsecurity;
+package com.fireduptech.springsecurity.web;
 
 import java.util.HashMap;
 import java.util.Map;
