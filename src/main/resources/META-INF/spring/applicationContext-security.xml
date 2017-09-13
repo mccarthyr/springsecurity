@@ -42,12 +42,13 @@
 	-->
 
 
+
 	<authentication-manager>
 		<authentication-provider>
 			<user-service>
 				<user name="admin" password="admin" authorities="ROLE_ADMIN" />
-				<user name="cust1" password="cust1" authorities="ROLE_CUSTOMER" />
-				<user name="cust2" password="cust2" authorities="ROLE_CUSTOMER" />
+				<user name="athlete1" password="cust1" authorities="ROLE_ATHLETE" />
+				<user name="athlete2" password="cust2" authorities="ROLE_ATHLETE" />
 			</user-service>
 		</authentication-provider>
 	</authentication-manager>
