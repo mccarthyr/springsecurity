@@ -25,7 +25,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import org.apache.commons.lang3.math.NumberUtils;
+//import org.apache.commons.lang3.math.NumberUtils;  - This is DEPRECATED
+import org.apache.commons.lang.math.NumberUtils;
 
 import com.fireduptech.springsecurity.domain.AthleteAccountDetails;
 import com.fireduptech.springsecurity.service.AthleteAccountService;
@@ -46,7 +47,7 @@ public class AthleteAccountController {
 	@RequestMapping( value= "/list", method = RequestMethod.GET )
 	public ModelAndView listAthleteAccounts( Principal principal ) {
 
-		Map<String, List<AthleteAccountDetails> modelData = new HashMap<String, List<AthleteAccountDetails>>();
+		Map<String, List<AthleteAccountDetails>> modelData = new HashMap<String, List<AthleteAccountDetails>>();
 
 		Collection<GrantedAuthority> authorities = (Collection<GrantedAuthority>) SecurityContextHolder.getContext().getAuthentication().getAuthorities();
 
@@ -54,7 +55,8 @@ public class AthleteAccountController {
 
 		if ( iterator.hasNext() ) {
 
-			String role = ((GrantedAuthority) iterator.next()).getAuthority();
+			//String role = ((GrantedAuthority) iterator.next()).getAuthority();  This compiled but with a warning that cast (GrantedAuthority) was redundant
+			String role = (iterator.next()).getAuthority();
 			if ( role.equalsIgnoreCase( "ROLE_ADMIN" ) ) {
 
 				// acdList - athlete account details list
@@ -178,7 +180,8 @@ public class AthleteAccountController {
 
 	@ExceptionHandler
 	public ModelAndView handleException( Exception ex ) {
-		ModelAndView mav = new ModelAndView( "error", "msg", ex.getMessage() );	
+		ModelAndView mav = new ModelAndView( "error", "msg", ex.getMessage() );
+		return mav;
 	}
 
 } // End of class AthleteAccountController...

@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Repository;
 
-import com.fireduptech.springsecurity.AthleteAccountDetails;
+import com.fireduptech.springsecurity.domain.AthleteAccountDetails;
 
 /*
  * NOTE: Here in the Constructor we hardcode a few AthleteAccountDetails
@@ -21,12 +21,12 @@ public class AthleteAccountDaoImpl implements AthleteAccountDao {
 
 	public AthleteAccountDaoImpl() {
 		adList = new ArrayList<AthleteAccountDetails>();
-		adList.add( counter++, "athlete1", "free", "John Doe", "JohnDoe@domain.com", "Cycling" );
-		adList.add( counter++, "athlete2", "free", "Jane Doe", "JaneDoe@domain.com", "Running" );
+		adList.add( new AthleteAccountDetails( counter++, "athlete1", "free", "John Doe", "JohnDoe@domain.com", "Cycling" ) );
+		adList.add( new AthleteAccountDetails( counter++, "athlete2", "free", "Jane Doe", "JaneDoe@domain.com", "Running" ) );
 	}
 
 	@Override
-	AthleteAccountDetails getAthleteAccount( int athleteAccountId ) {
+	public AthleteAccountDetails getAthleteAccount( int athleteAccountId ) {
 
 		AthleteAccountDetails locatedAthleteAccount = null;
 
@@ -41,7 +41,7 @@ public class AthleteAccountDaoImpl implements AthleteAccountDao {
 
 
 	@Override
-	List<AthleteAccountDetails> getAllAthleteAccounts() {
+	public List<AthleteAccountDetails> getAllAthleteAccounts() {
 
 		List<AthleteAccountDetails> aad = new ArrayList<AthleteAccountDetails>();
 
@@ -53,7 +53,7 @@ public class AthleteAccountDaoImpl implements AthleteAccountDao {
 
 
 	@Override
-	void saveAthleteAccount(AthleteAccountDetails athleteAccountDetails ) {
+	public void saveAthleteAccount(AthleteAccountDetails athleteAccountDetails ) {
 
 		athleteAccountDetails.setId( counter++ );
 		adList.add( athleteAccountDetails );
@@ -61,7 +61,7 @@ public class AthleteAccountDaoImpl implements AthleteAccountDao {
 
 
 	@Override
-	void editAthleteAccount( AthleteAccountDetails modifiedAthleteAccountDetails ) {
+	public void editAthleteAccount( AthleteAccountDetails modifiedAthleteAccountDetails ) {
 
 		for ( AthleteAccountDetails athleteAccountDetails : adList ) {
 			if ( athleteAccountDetails.getId() == modifiedAthleteAccountDetails.getId() ) {
@@ -74,7 +74,7 @@ public class AthleteAccountDaoImpl implements AthleteAccountDao {
 
 
 	@Override
-	void closeAthleteAccount( int athleteAccountId ) {
+	public void closeAthleteAccount( int athleteAccountId ) {
 
 		for ( AthleteAccountDetails athleteAccountDetails : adList ) {
 			if ( athleteAccountDetails.getId() == athleteAccountId ) {

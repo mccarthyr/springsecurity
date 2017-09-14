@@ -1,10 +1,10 @@
-pacakge com.fireduptech.springsecurity.dao;
+package com.fireduptech.springsecurity.dao;
 
 import java.util.List;
 
 import com.fireduptech.springsecurity.domain.AthleteAccountDetails;
 
-public interface AthleteAccountDao{
+public interface AthleteAccountDao {
 
 	AthleteAccountDetails getAthleteAccount( int athleteAccountId );
 
