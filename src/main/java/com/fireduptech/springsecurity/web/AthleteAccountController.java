@@ -93,6 +93,19 @@ public class AthleteAccountController {
 
 		Map<String, Object> modelData = new HashMap<String, Object>();
 
+
+		if ( !accountType.equalsIgnoreCase("freemium") || !accountType.equalsIgnoreCase("premium") || accountType == null || "".equalsIgnoreCase( accountType )) {
+			modelData.put( "error.accountType", "enter a valid account type" );
+		}
+
+		if ( name == null || "".equalsIgnoreCase( name ) ) {
+			modelData.put( "error.name", "enter a name" );
+		}
+
+		if ( !primaryActivity.equalsIgnoreCase("cycling") || !primaryActivity.equalsIgnoreCase("running") || primaryActivity == null || "".equalsIgnoreCase( primaryActivity ) ) {
+			modelData.put( "error.primaryActivity", "enter a valid primary activity" );
+		}
+
 		if ( email == null || "".equalsIgnoreCase(email) ) {
 			modelData.put( "error.email", "must not be blank" );
 		} else if ( !email.contains( "@" ) ) {
@@ -128,15 +141,30 @@ public class AthleteAccountController {
 
 		Map<String, Object> modelData = new HashMap<String, Object>();
 
+
+		if ( !accountType.equalsIgnoreCase("freemium") || !accountType.equalsIgnoreCase("premium") || accountType == null || "".equalsIgnoreCase( accountType )) {
+			modelData.put( "error.accountType", "enter a valid account type" );
+		}
+
+		if ( name == null || "".equalsIgnoreCase( name ) ) {
+			modelData.put( "error.name", "enter a name" );
+		}
+
+		if ( !primaryActivity.equalsIgnoreCase("cycling") || !primaryActivity.equalsIgnoreCase("running") || primaryActivity == null || "".equalsIgnoreCase( primaryActivity ) ) {
+			modelData.put( "error.primaryActivity", "enter a valid primary activity" );
+		}
+
 		if ( email == null || "".equalsIgnoreCase(email) ) {
 			modelData.put( "error.email", "must not be blank" );
 		} else if ( !email.contains( "@" ) ) {
 			modelData.put( "error.email", "invalid email address structure" );
 		}
 
+		/* Don't need this, not on display in previous screen...
 		if ( !NumberUtils.isNumber(id) ) {
 			modelData.put( "error.id", "invalid Id" );
-		}
+		}*/
+
 
 		AthleteAccountDetails athleteAccountDetails = new AthleteAccountDetails();
 		athleteAccountDetails.setId( Integer.parseInt( id ) );

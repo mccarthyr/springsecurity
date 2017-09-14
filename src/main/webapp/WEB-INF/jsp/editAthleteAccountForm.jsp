@@ -1,27 +1,10 @@
-
-
-
-
-
-
-
-
-
-
-
-
-================================================================================================================================================================================
-================================================================================================================================================================================
-
-
-
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib uri="http://www.springframework.org/security/tags"
-	prefix="security"%>
-	
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="security"%>
+
+
 <html>
 <head>
-<title>Create a new fixed deposit</title>
+<title>Create a new Athlete Account</title>
 <style type="text/css">
 .td {
 	font-family: 'arial';
@@ -43,8 +26,8 @@
 	<form id="logoutForm" method="POST" action="${pageContext.request.contextPath}/logout">
 		<security:csrfInput/>
 	</form>
-	<form name="editFixedDepositForm" method="POST"
-		action="${pageContext.request.contextPath}/fixedDeposit?fdAction=edit">
+	<form name="editAthleteAccountForm" method="POST"
+		action="${pageContext.request.contextPath}/athleteAccount?fdAction=edit">
 		<security:csrfInput/>
 		<table align="left" style="padding-left: 300px;">
 			<tr>
@@ -56,30 +39,40 @@
 			<tr>
 				<td
 					style="font-family: 'arial'; font-size: 16px; font-weight: bold;"
-					align="left">Open Fixed deposit</td>
+					align="left">Open Athlete Account</td>
 			</tr>
 			<tr align="left">
 				<td>
 					<table class="border" cellpadding="10">
+
 						<tr>
 							<td class="td"><b>Id:</b></td>
-							<td class="td"><input type="text" name="id" value="${requestScope.fixedDepositDetails.id}" readonly/></td>
+							<td class="td"><input type="text" name="id" value="${requestScope.athleteAccountDetails.id}" readonly/></td>
 						</tr>
 						<tr>
-							<td class="td"><b>Amount (in USD):</b></td>
-							<td class="td"><input type="text" name="depositAmount" value="${requestScope.fixedDepositDetails.depositAmount}"/><font
-								style="color: #C11B17;"><c:out value="${requestScope['error.depositAmount']}"/></font></td>
+							<td class="td"><b>Account Type (Freemium/Premium)</b></td>
+							<td class="td"><input type="text" name="accountType" value="${requestScope.athleteAccountDetails.accountType}" /><font
+								style="color: #C11B17;"><c:out value="${requestScope['error.accountType']}" /></font></td>
 						</tr>
+
 						<tr>
-							<td class="td"><b>Tenure (in months):</b></td>
-							<td class="td"><input type="text" name="tenure" value="${requestScope.fixedDepositDetails.tenure}"/><font
-								style="color: #C11B17;"><c:out value="${requestScope['error.tenure']}"/></font></td>
+							<td class="td"><b>Name</b></td>
+							<td class="td"><input type="text" name="name" value="${requestScope.athleteAccountDetails.name}" /><font
+								style="color: #C11B17;"><c:out value="${requestScope['error.name']}" /></font></td>
 						</tr>
+
 						<tr>
-							<td class="td"><b>Email:</b></td>
-							<td class="td"><input type="text" name="email" value="${requestScope.fixedDepositDetails.email}" /><font
-								style="color: #C11B17;"><c:out value="${requestScope['error.email']}"/></font></td>
+							<td class="td"><b>Email</b></td>
+							<td class="td"><input type="text" name="email" value="${requestScope.athleteAccountDetails.email}" /><font
+								style="color: #C11B17;"><c:out value="${requestScope['error.email']}" /></font></td>
 						</tr>
+
+						<tr>
+							<td class="td"><b>Primary Activity</b></td>
+							<td class="td"><input type="text" name="primaryActivity" value="${requestScope.athleteAccountDetails.primaryActivity}" /><font
+								style="color: #C11B17;"><c:out value="${requestScope['error.primaryActivity']}" /></font></td>
+						</tr>
+
 					</table>
 				</td>
 			</tr>
