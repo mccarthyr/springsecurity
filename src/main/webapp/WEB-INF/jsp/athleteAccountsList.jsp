@@ -40,7 +40,7 @@
 		</form>
 
 
-		<form name="athleteAccountsList" method="POST" action="${pageContext.request.contextPath}/athleteAccount?acAction=createACForm" >
+		<form name="athleteAccountsList" method="POST" action="${pageContext.request.contextPath}/athleteaccountv2/athleteAccount?acAction=createACForm" >
 			<security:csrfInput/>
 
 			<table align="left" style="padding-left: 300px;" >
@@ -79,22 +79,23 @@
 
 								<tr>
 									<td class="td"><c:out value="${athleteAccountDetails.id}" /></td>
-									<security:authorise access="hasRole('ROLE_ADMIN')">
+									<security:authorize access="hasRole('ROLE_ADMIN')">
 										<td class="td"><c:out value="${athleteAccountDetails.accountId}" /></td>
-									</security:authorise>
+									</security:authorize>
 									<td class="td"><c:out value="${athleteAccountDetails.accountType}" /></td>
 									<td class="td"><c:out value="${athleteAccountDetails.name}" /></td>
 									<td class="td"><c:out value="${athleteAccountDetails.email}" /></td>
 									<td class="td"><c:out value="${athleteAccountDetails.primaryActivity}" /></td>
 
 									<td class="td">
-									<security:authorise access="hasRole('ROLE_ATHLETE')">
+									<security:authorize access="hasRole('ROLE_ATHLETE')">
 
-											<a href="${pageContext.request.contextPath/athleteAccount?view&athleteAccountId=${athleteAccountDetails.id}}" style="color: green">Edit</a>&nbsp;&nbsp;
-									</security:authorise>
-									<security:authorise access="hasRole('ROLE_ADMIN')" >
-										<a href="${pageContext.request.contextPath/athleteAccount?close&athleteAccountId=${athleteAccountDetails.id}}" style="color: green">Close</a>&nbsp;&nbsp;
-									</security:authorise>
+										<a href="${pageContext.request.contextPath}/athleteaccountv2/athleteAccount?acAction=view&athleteAccountId=${athleteAccountDetails.id}" style="color: green">Edit</a>&nbsp;&nbsp;
+									</security:authorize>
+
+									<security:authorize access="hasRole('ROLE_ADMIN')" >
+										<a href="${pageContext.request.contextPath}/athleteaccountv2/athleteAccount?acAction=close&athleteAccountId=${athleteAccountDetails.id}" style="color: green">Close</a>&nbsp;&nbsp;
+									</security:authorize>
 									</td>
 
 								</tr>

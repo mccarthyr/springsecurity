@@ -93,18 +93,23 @@ public class AthleteAccountController {
 
 		Map<String, Object> modelData = new HashMap<String, Object>();
 
-
-		if ( !accountType.equalsIgnoreCase("freemium") || !accountType.equalsIgnoreCase("premium") || accountType == null || "".equalsIgnoreCase( accountType )) {
+		if ( !accountType.equalsIgnoreCase("freemium") && !accountType.equalsIgnoreCase("premium") ) {
 			modelData.put( "error.accountType", "enter a valid account type" );
+		} else if ( accountType == null || "".equalsIgnoreCase( accountType ) ) {
+			modelData.put( "error.accountType", "must not be blank" );
 		}
 
 		if ( name == null || "".equalsIgnoreCase( name ) ) {
 			modelData.put( "error.name", "enter a name" );
 		}
 
-		if ( !primaryActivity.equalsIgnoreCase("cycling") || !primaryActivity.equalsIgnoreCase("running") || primaryActivity == null || "".equalsIgnoreCase( primaryActivity ) ) {
+
+		if ( !primaryActivity.equalsIgnoreCase("cycling") && !primaryActivity.equalsIgnoreCase("running") ) {
 			modelData.put( "error.primaryActivity", "enter a valid primary activity" );
+		} else if ( primaryActivity == null || "".equalsIgnoreCase( primaryActivity ) ) {
+			modelData.put( "error.primaryActivity", "must not be blank" );
 		}
+
 
 		if ( email == null || "".equalsIgnoreCase(email) ) {
 			modelData.put( "error.email", "must not be blank" );
@@ -124,7 +129,7 @@ public class AthleteAccountController {
 			return new ModelAndView( "createAthleteAccountForm", modelData );
 		} else {
 			athleteAccountService.saveAthleteAccount( athleteAccountDetails );
-			return new ModelAndView( "redirect:/athleteAccount/list" );
+			return new ModelAndView( "redirect:/athleteaccountv2/athleteAccount/list" );
 		}
 
 	} // End of method creatAthleteAccount()...
@@ -141,24 +146,30 @@ public class AthleteAccountController {
 
 		Map<String, Object> modelData = new HashMap<String, Object>();
 
-
-		if ( !accountType.equalsIgnoreCase("freemium") || !accountType.equalsIgnoreCase("premium") || accountType == null || "".equalsIgnoreCase( accountType )) {
+		if ( !accountType.equalsIgnoreCase("freemium") && !accountType.equalsIgnoreCase("premium") ) {
 			modelData.put( "error.accountType", "enter a valid account type" );
+		} else if ( accountType == null || "".equalsIgnoreCase( accountType ) ) {
+			modelData.put( "error.accountType", "must not be blank" );
 		}
 
 		if ( name == null || "".equalsIgnoreCase( name ) ) {
 			modelData.put( "error.name", "enter a name" );
 		}
 
-		if ( !primaryActivity.equalsIgnoreCase("cycling") || !primaryActivity.equalsIgnoreCase("running") || primaryActivity == null || "".equalsIgnoreCase( primaryActivity ) ) {
+
+		if ( !primaryActivity.equalsIgnoreCase("cycling") && !primaryActivity.equalsIgnoreCase("running") ) {
 			modelData.put( "error.primaryActivity", "enter a valid primary activity" );
+		} else if ( primaryActivity == null || "".equalsIgnoreCase( primaryActivity ) ) {
+			modelData.put( "error.primaryActivity", "must not be blank" );
 		}
+
 
 		if ( email == null || "".equalsIgnoreCase(email) ) {
 			modelData.put( "error.email", "must not be blank" );
 		} else if ( !email.contains( "@" ) ) {
 			modelData.put( "error.email", "invalid email address structure" );
 		}
+
 
 		/* Don't need this, not on display in previous screen...
 		if ( !NumberUtils.isNumber(id) ) {
@@ -179,7 +190,8 @@ public class AthleteAccountController {
 			return new ModelAndView( "editAthleteAccountForm", modelData );
 		} else {
 			athleteAccountService.editAthleteAccount( athleteAccountDetails );
-			return new ModelAndView( "redirect/athleteAccount/list" );
+			return new ModelAndView( "redirect:/athleteaccountv2/athleteAccount/list" );
+																
 		}
 
 	} // End of method editAthleteAccount()...
@@ -188,15 +200,18 @@ public class AthleteAccountController {
 	@RequestMapping( params = "acAction=close", method = RequestMethod.GET )
 	public String closeAthleteAccount( @RequestParam( value = "athleteAccountId" ) int aaId ) {
 		athleteAccountService.closeAthleteAccount( aaId );
-		return "redirect:/athleteAccount/list";
+		return "redirect:/athleteaccountv2/athleteAccount/list";
 	}
 
 
 	@RequestMapping( params = "acAction=view", method = RequestMethod.GET )
-	public ModelAndView viewAthleteAccountDetails( HttpServletRequest request ) {
+	//public ModelAndView viewAthleteAccountDetails( HttpServletRequest request ) {
+	public ModelAndView viewAthleteAccountDetails( @RequestParam( value = "athleteAccountId" ) int aaId ) {
 
-		AthleteAccountDetails athleteAccountDetails = athleteAccountService.getAthleteAccount( 
-			Integer.parseInt( request.getParameter("athleteAccountId") ) );
+		//AthleteAccountDetails athleteAccountDetails = athleteAccountService.getAthleteAccount( 
+		//	Integer.parseInt( request.getParameter("athleteAccountId") ) );
+
+		AthleteAccountDetails athleteAccountDetails = athleteAccountService.getAthleteAccount( aaId );
 
 		ModelMap modelMap = new ModelMap();
 		modelMap.addAttribute( athleteAccountDetails );

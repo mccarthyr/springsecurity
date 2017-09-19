@@ -56,4 +56,25 @@
 		<servlet-name>hello</servlet-name>
 		<url-pattern>/hellospringsecurityworld/*</url-pattern>
 	</servlet-mapping>
+
+	<!-- NEW ENTRIES FOR V2 SPRING SECURITY CODE -->
+	<servlet>
+		<servlet-name>athleteaccount</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<init-param>
+			<param-name>contextConfigLocation</param-name>
+			<param-value>/WEB-INF/spring/myapp-config.xml</param-value>
+		</init-param>
+		<load-on-startup>2</load-on-startup>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>athleteaccount</servlet-name>
+		<url-pattern>/athleteaccountv2/*</url-pattern>
+	</servlet-mapping>
+
+	<!-- END OF NEW ENTRIES FOR V2 SPRING SECURITY CODE -->
+
+
+
 </web-app>

@@ -15,7 +15,7 @@
 
 	<http>
 		<intercept-url pattern="/**"
-			access="hasAnyRole('ROLE_CUSTOMER', 'ROLE_ADMIN')" />
+			access="hasAnyRole('ROLE_ATHLETE', 'ROLE_ADMIN')" />
 		<form-login />
 		<logout />
 		<remember-me />
@@ -46,9 +46,9 @@
 	<authentication-manager>
 		<authentication-provider>
 			<user-service>
-				<user name="admin" password="admin" authorities="ROLE_ADMIN" />
-				<user name="athlete1" password="cust1" authorities="ROLE_ATHLETE" />
-				<user name="athlete2" password="cust2" authorities="ROLE_ATHLETE" />
+				<user name="admin" password="adminpass" authorities="ROLE_ADMIN" />
+				<user name="athlete1" password="pass1" authorities="ROLE_ATHLETE, ROLE_ADMIN" />
+				<user name="athlete2" password="pass2" authorities="ROLE_ATHLETE" />
 			</user-service>
 		</authentication-provider>
 	</authentication-manager>

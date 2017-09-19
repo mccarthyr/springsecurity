@@ -26,7 +26,7 @@
 	<form id="logoutForm" method="POST" action="${pageContext.request.contextPath}/logout">
 		<security:csrfInput/>
 	</form>
-	<form name="createAthleteAccountForm" method="POST" action="${pageContext.request.contextPath}/athleteAccount?fdAction=create">
+	<form name="createAthleteAccountForm" method="POST" action="${pageContext.request.contextPath}/athleteaccountv2/athleteAccount?acAction=create">
 
 		<security:csrfInput/>
 
@@ -80,7 +80,7 @@
 					<table style="padding-left: 100px;">
 						<tr align="center">
 							<td class="td"><input type="submit" value="Save" /> &nbsp;&nbsp;
-								<a href="${pageContext.request.contextPath}/athleteAccount/list" style="color: green"><b>Go Back</b></a>
+								<a href="${pageContext.request.contextPath}/athleteaccountv2/athleteAccount/list" style="color: green"><b>Go Back</b></a>
 							</td>
 						</tr>
 					</table>
