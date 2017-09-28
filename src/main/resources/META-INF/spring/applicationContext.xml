@@ -8,4 +8,22 @@
 	<context:component-scan
 		base-package="com.fireduptech.springsecurity.domain, com.fireduptech.springsecurity.dao, com.fireduptech.springsecurity.service" />
 
+
+	<context:property-placeholder location="classpath*:META-INF/config/database.properties" />
+
+	<bean class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close" id="dataSource" >
+		<property name="driverClassName" value="${database.driverClassName}" />
+		<property name="url" value="${database.url}" />
+		<property name="username" value="${database.username}" />
+		<property name="password" value="${databasae.password}" />
+	</bean>
+
+	<bean id="namedJdbcTemplate" class="org.springframework.jdbc.core.namedparam.NamedParameter.JdbcTemplate" >
+		<constructor-arg index="0" ref="dataSource" />
+	</bean>
+
+
 </beans>
+
+
+
