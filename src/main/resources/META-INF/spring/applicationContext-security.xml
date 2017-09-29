@@ -132,7 +132,7 @@
 	<beans:bean id="aclAuthorizationStrategy" class="org.springframework.security.acls.domain.AclAuthorizationStrategyImpl" >
 		<beans:constructor-arg>
 			<beans:bean class="org.springframework.security.core.authority.SimpleGrantedAuthority" >
-				<beans:constructor-arg value="ROLE_ATHLETE" />
+				<beans:constructor-arg value="ROLE_ADMIN" />
 			</beans:bean>
 		</beans:constructor-arg>
 	</beans:bean>
