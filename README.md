@@ -7,5 +7,6 @@ Tomcat Maven Deploy is configured in the pom.xml and set to localhost. Adjust as
 
 v2.0 release contains a full CRUD In-Memory demo, using Security Roles, Service, Dao and Domain objects. It comes
 pre-configured with a few entries that will display for two of the registered In-Memory users ( in the applicationContext-security.xml file) which can be edited and deleted. New entries can and also be created/edited/deleted.
+The entries that are created and already set up and held in an ArrayList in the domain object (com.fireduptech.springsecurity.domain.AthleteAccountDetails) in this version as no database is used.
 https://github.com/mccarthyr/springsecurity/releases/tag/v2.0
 
