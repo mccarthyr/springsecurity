@@ -35,7 +35,7 @@
 	</head>
 	<body>
 
-		<form id="logoutForm" method="POST" action="${pageContext.request.contextPath}/logout" >
+		<form id="logoutForm" method="POST" action="${pageContext.request.contextPath}/athleteaccountv2/ logout" >
 			<security:csrfInput/>
 		</form>
 
@@ -91,6 +91,8 @@
 									<security:authorize access="hasRole('ROLE_ATHLETE')">
 
 										<a href="${pageContext.request.contextPath}/athleteaccountv2/athleteAccount?acAction=view&athleteAccountId=${athleteAccountDetails.id}" style="color: green">Edit</a>&nbsp;&nbsp;
+
+										<a href="${pageContext.request.contextPath}/athleteaccountv2/athleteAccount?acAction=provideAccessToAdmin&athleteAccountId=${athleteAccountDetails.id}" style="color: green">Provide access to admin</a>
 									</security:authorize>
 
 									<security:authorize access="hasRole('ROLE_ADMIN')" >

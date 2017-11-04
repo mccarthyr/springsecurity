@@ -18,7 +18,7 @@ public interface AthleteAccountService {
 	AthleteAccountDetails getAthleteAccount( int athleteAccountId  );
 
 	//@Secured( "ROLE_ADMIN" )
-	@PreAuthorize( " hasPermission( 'ROLE_ADMIN' ) " )
+	@PreAuthorize( " hasAnyRole( 'ROLE_ADMIN', 'ROLE_ATHLETE' ) " )
 	@PostFilter( " hasPermission( filterObject, read ) or hasPermission( filterObject, admin ) " )
 	List<AthleteAccountDetails> getAllAthleteAccounts();
 
@@ -33,6 +33,11 @@ public interface AthleteAccountService {
 	//@Secured( "ROLE_ADMIN" )
 	@PreAuthorize( " hasPermission( #athleteAccountId, 'com.fireduptech.springsecurity.domain.AthleteAccountDetails', delete ) " )
 	void closeAthleteAccount( int athleteAccountId );
+
+
+	@PreAuthorize( " hasPermission( #athleteAccountId, 'com.fireduptech.springsecurity.domain.AthleteAccountDetails', write ) " )
+	void provideAccessToAdmin( int athleteAccountId );
+
 
 
 	/*

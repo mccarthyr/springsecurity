@@ -60,12 +60,29 @@
  		<beans:property name="dataSource" ref="dataSource" />
   </beans:bean>
 
+<!-- 
+			<intercept-url pattern="/login" access="permitAll" />
 
-	<http>
-		<access-denied-handler error-page="/access-denied" />
+/athleteaccountv2/athleteAccount/*
+
+<form-login login-page="/athleteaccountv2/login"
+
+login-page="/athleteaccountv2/login"  THIS GOES TO MY LOGIN CONTROLLER AS BETWEEN THE POM AND WEB XML FILES, THE helloSpringSecurity and athleteaccountv2 IS ADDED
+IF THIS WAS NOT USED THE THE DEFAULT GOES TO helloSpringSecurity/login  - THE CUSTOM ONE ABOVE WORKS AS THE CUSTOM LOGIN CONTROLLER HAS A REQUEST MAPPING ANNOTATION OF
+/login which will get the rest (helloSpringSecurity/athleteaccountv2) put in front of it. 
+EVERY URL LISTED HERE WILL HAVE /helloSpringSecurity/ PUT IN FRONT OF IT (set in the POM file, the TOMCAT context)...
+
+-->
+
+
+
+
+	<http use-expressions="true">
+		<access-denied-handler error-page="/athleteaccountv2/access-denied" />
+		<intercept-url pattern="/athleteaccountv2/login" access="permitAll" /> <!-- NEED THIS OR ELSE END UP IN INFINTTE REDIRECT LOOP... -->
 		<intercept-url pattern="/**" access="hasAnyRole('ROLE_ATHLETE', 'ROLE_ADMIN')" />
-		<form-login login-page="/login" authentication-failure-handler-ref="authFailureHandler" />
-		<logout />  
+		<form-login  login-page="/athleteaccountv2/login" authentication-failure-handler-ref="authFailureHandler" default-target-url="/athleteaccountv2/homepage.html" />
+		<logout logout-url="/athleteaccountv2/logout" />  
 		<headers>
 			<cache-control />
 			<xss-protection />
@@ -94,20 +111,13 @@
 		<beans:constructor-arg ref="aclService" />
 	</beans:bean>
 
-	<!--
-		As ACL permissions are stored in database tables, the application uses Spring's
-		JsbcMutableAclService to perform CRUD operations on ACLs in the tables.
-	-->	
-	<beans:bean id="aclService" class="org.springframework.security.acls.jdbc.JdbcMutableAclService" >
-		<beans:constructor-arg ref="dataSource" />
-		<beans:constructor-arg ref="lookupStrategy" />
-		<beans:constructor-arg ref="aclCache" />
-	</beans:bean>
+
 
 	<beans:bean id="aclCache" class="org.springframework.security.acls.domain.EhCacheBasedAclCache" >
 		<beans:constructor-arg>
+ 
 
-			<beans:beans class="org.springframework.cache.ehcache.EhCacheFactoryBean" >
+			<beans:bean class="org.springframework.cache.ehcache.EhCacheFactoryBean" >
 
 				<beans:property name="cacheManager">
 					<beans:bean class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean" />
@@ -116,10 +126,12 @@
 				<beans:property name="cacheName" value="aclCache" />
 
 			</beans:bean>
+
 		</beans:constructor-arg>
 		<beans:constructor-arg ref="aclAuthorizationStrategy" />
 		<beans:constructor-arg ref="permissionGrantingStrategy" />	
 	</beans:bean>
+
 
 
 	<beans:bean id="lookupStrategy" class="org.springframework.security.acls.jdbc.BasicLookupStrategy" >
@@ -128,6 +140,7 @@
 		<beans:constructor-arg ref="aclAuthorizationStrategy" />
 		<beans:constructor-arg ref="permissionGrantingStrategy" />
 	</beans:bean>
+
 
 	<beans:bean id="aclAuthorizationStrategy" class="org.springframework.security.acls.domain.AclAuthorizationStrategyImpl" >
 		<beans:constructor-arg>
@@ -142,5 +155,16 @@
 			<beans:bean class="org.springframework.security.acls.domain.ConsoleAuditLogger" />
 		</beans:constructor-arg>
 	</beans:bean>
+
+	<!--
+		As ACL permissions are stored in database tables, the application uses Spring's
+		JsbcMutableAclService to perform CRUD operations on ACLs in the tables.
+	-->	
+	<beans:bean id="aclService" class="org.springframework.security.acls.jdbc.JdbcMutableAclService" >
+		<beans:constructor-arg ref="dataSource" />
+		<beans:constructor-arg ref="lookupStrategy" />
+		<beans:constructor-arg ref="aclCache" />
+	</beans:bean>
+
 
 </beans:beans>

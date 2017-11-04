@@ -89,6 +89,17 @@ public class AthleteAccountServiceImpl implements AthleteAccountService {
 		mutableAclService.deleteAcl( oid, false );
 	}
 
+
+	@Override
+	public void provideAccessToAdmin( int athleteAccountId ) {
+
+		addPermission( athleteAccountId, new PrincipalSid( "admin" ), BasePermission.READ );
+		addPermission( athleteAccountId, new PrincipalSid( "admin" ), BasePermission.ADMINISTRATION );
+		addPermission( athleteAccountId, new PrincipalSid( "admin" ), BasePermission.DELETE );
+
+	}
+
+
 	/*
 	 ****** FURTHER SAMPLE OPTION TO BUILD IN LATER ******
 	 	@Override
@@ -103,4 +114,5 @@ public class AthleteAccountServiceImpl implements AthleteAccountService {
 	*/
 
 }
+
 

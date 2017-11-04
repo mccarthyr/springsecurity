@@ -18,7 +18,7 @@ public class MyAuthFailureHandler implements AuthenticationFailureHandler {
 		throws IOException, ServletException {
 
 			request.setAttribute( "exceptionMsg", exception.getMessage() );
-			response.sendRedirect( request.getContextPath() + "/login?exceptionMsg=" + exception.getMessage() );
+			response.sendRedirect( request.getContextPath() + "/athleteaccountv2/login?exceptionMsg=" + exception.getMessage() );
 
 	}
 

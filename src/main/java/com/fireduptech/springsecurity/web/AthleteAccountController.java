@@ -56,12 +56,12 @@ public class AthleteAccountController {
 		if ( iterator.hasNext() ) {
 
 			//String role = ((GrantedAuthority) iterator.next()).getAuthority();  This compiled but with a warning that cast (GrantedAuthority) was redundant
-			String role = (iterator.next()).getAuthority();
+			/*String role = (iterator.next()).getAuthority();
 			if ( role.equalsIgnoreCase( "ROLE_ADMIN" ) ) {
-
+*/
 				// acdList - athlete account details list
 				modelData.put( "acdList", athleteAccountService.getAllAthleteAccounts() );
-			}
+	/*		} */
 		}
 
 		return new ModelAndView( "athleteAccountsList", modelData );
@@ -218,6 +218,29 @@ public class AthleteAccountController {
 		return new ModelAndView( "editAthleteAccountForm", modelMap );
 
 	}	// End of method viewAthleteAccountDetails()...
+
+
+// ?acAction=provideAccessToAdmin&athleteAccountId=${athleteAccountDetails.id}
+
+	@RequestMapping( params = "acAction=provideAccessToAdmin", method = RequestMethod.GET )
+	public String provideAccessToAdmin( HttpServletRequet .. *** FINISH PUTTING THIS METHOD TOGETHER ) {
+
+***		PLUS TRY ANOTHER VERSION WITH USING @REQUESTPARAM IN THE PARAMETERS LIST INSTEAD OF HttpServletRequet just to see... ***
+
+	}	// End of method provideAccessToAdmin()...
+
+========================================================
+	@RequestMapping(params = "fdAction=provideAccessToAdmin", method = RequestMethod.GET)
+	public String provideAccessToAdmin(HttpServletRequest request, RedirectAttributes redirectAttr) {
+		int fixedDepositId = Integer.parseInt(request
+				.getParameter("fixedDepositId"));
+		fixedDepositService.provideAccessToAdmin(fixedDepositId);
+
+		redirectAttr.addAttribute("msg", "Admin access provided to fixed deposit with id " + fixedDepositId);
+		return "redirect:/fixedDeposit/list";
+	}
+
+========================================================
 
 
 

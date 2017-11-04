@@ -39,7 +39,7 @@
 					<td>
 						<table style="padding-left: 100px;">
 							<tr align="center">
-								<td class="td"><input type="submit" value="Login" /></td>
+								<td class="td"><input type="submit" value="LoginXXX" /></td>
 							</tr>
 						</table>
 					</td>

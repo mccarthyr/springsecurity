@@ -23,11 +23,6 @@ import org.springframework.stereotype.Repository;
 
 import com.fireduptech.springsecurity.domain.AthleteAccountDetails;
 
-/*
- * NOTE: Here in the Constructor we hardcode a few AthleteAccountDetails
-         domain objects so as to simulate accounts being held in 
-         persistent storage.
- */
 
 @Repository
 public class AthleteAccountDaoImpl implements AthleteAccountDao {
@@ -53,6 +48,7 @@ public class AthleteAccountDaoImpl implements AthleteAccountDao {
 					@Override
 					public AthleteAccountDetails extractData( ResultSet rs ) throws SQLException, DataAccessException {
 						while ( rs.next() ) {
+							acd.setId( rs.getLong( "id" ) );
 							acd.setAccountType( rs.getString( "accountType" ) );
 							acd.setName( rs.getString( "name" ) );
 							acd.setEmail( rs.getString( "email" ) );
@@ -79,6 +75,7 @@ public class AthleteAccountDaoImpl implements AthleteAccountDao {
 					public List<AthleteAccountDetails> extractData( ResultSet rs ) throws SQLException, DataAccessException {
 							while ( rs.next() ) {
 								AthleteAccountDetails acd = new AthleteAccountDetails();
+								acd.setId( rs.getLong( "id" ) );
 								acd.setAccountType( rs.getString( "accountType" ) );
 								acd.setName( rs.getString( "name" ) );
 								acd.setEmail( rs.getString( "email" ) );

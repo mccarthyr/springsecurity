@@ -23,7 +23,7 @@
 </style>
 </head>
 <body>
-	<form id="logoutForm" method="POST" action="${pageContext.request.contextPath}/logout">
+	<form id="logoutForm" method="POST" action="${pageContext.request.contextPath}/athleteaccountv2/logout">
 		<security:csrfInput/>
 	</form>
 	<form name="editAthleteAccountForm" method="POST" action="${pageContext.request.contextPath}/athleteaccountv2/athleteAccount?acAction=edit">
