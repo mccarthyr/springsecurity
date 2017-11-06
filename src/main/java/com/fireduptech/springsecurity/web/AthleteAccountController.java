@@ -25,11 +25,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
 //import org.apache.commons.lang3.math.NumberUtils;  - This is DEPRECATED
 import org.apache.commons.lang.math.NumberUtils;
 
 import com.fireduptech.springsecurity.domain.AthleteAccountDetails;
 import com.fireduptech.springsecurity.service.AthleteAccountService;
+
 
 @Controller
 @RequestMapping( value = "/athleteAccount" )
@@ -220,27 +223,17 @@ public class AthleteAccountController {
 	}	// End of method viewAthleteAccountDetails()...
 
 
-// ?acAction=provideAccessToAdmin&athleteAccountId=${athleteAccountDetails.id}
 
 	@RequestMapping( params = "acAction=provideAccessToAdmin", method = RequestMethod.GET )
-	public String provideAccessToAdmin( HttpServletRequet .. *** FINISH PUTTING THIS METHOD TOGETHER ) {
+	public String provideAccessToAdmin( HttpServletRequest request, RedirectAttributes redirectAttr ) {
 
-***		PLUS TRY ANOTHER VERSION WITH USING @REQUESTPARAM IN THE PARAMETERS LIST INSTEAD OF HttpServletRequet just to see... ***
+		int athleteAccountId = Integer.parseInt( request.getParameter( "athleteAccountId" ) );
+		athleteAccountService.provideAccessToAdmin( athleteAccountId );
+
+		redirectAttr.addAttribute( "msg", "Admin access provided to the athlete account with id: " + athleteAccountId );
+		return "redirect:/athleteaccountv2/athleteAccount/list";
 
 	}	// End of method provideAccessToAdmin()...
-
-========================================================
-	@RequestMapping(params = "fdAction=provideAccessToAdmin", method = RequestMethod.GET)
-	public String provideAccessToAdmin(HttpServletRequest request, RedirectAttributes redirectAttr) {
-		int fixedDepositId = Integer.parseInt(request
-				.getParameter("fixedDepositId"));
-		fixedDepositService.provideAccessToAdmin(fixedDepositId);
-
-		redirectAttr.addAttribute("msg", "Admin access provided to fixed deposit with id " + fixedDepositId);
-		return "redirect:/fixedDeposit/list";
-	}
-
-========================================================
 
 
 
