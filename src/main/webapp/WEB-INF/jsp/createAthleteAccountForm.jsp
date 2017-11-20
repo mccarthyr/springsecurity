@@ -48,8 +48,8 @@
 					<table class="border" cellpadding="10">
 						<tr>
 							<td class="td"><b>Account Type (Freemium/Premium)</b></td>
-							<td class="td"><input type="text" name="accountType" value="${requestScope.athleteAccountDetails.accountType}" /><font
-								style="color: #C11B17;"><c:out value="${requestScope['error.accountType']}" /></font></td>
+							<td class="td"><input type="text" name="accountType" value="${requestScope.athleteAccountDetails.accountType}" />
+								<font style="color: #C11B17;"><c:out value="${requestScope['error.accountType']}" /></font></td>
 						</tr>
 
 						<tr>

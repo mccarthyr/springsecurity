@@ -23,6 +23,15 @@
 	</bean>
 
 
+
+<!-- Do not need to explicitly define this to use to Spring Validation API
+	<bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean" />
+-->
+
+
+	
+
+
 </beans>
 
 

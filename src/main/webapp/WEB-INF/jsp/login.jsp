@@ -1,4 +1,4 @@
-<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="security"%>
 
 <html>
@@ -17,7 +17,7 @@
 			<security:csrfInput />
 			<table align="left" style="padding-left: 300px;">
 				
-				<tralign="left">
+				<tr align="left">
 					<td>
 						<table class="border" cellpadding="10">
 							<tr>

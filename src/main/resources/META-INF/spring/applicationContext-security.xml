@@ -78,8 +78,11 @@ EVERY URL LISTED HERE WILL HAVE /helloSpringSecurity/ PUT IN FRONT OF IT (set in
 
 
 	<http use-expressions="true">
-		<access-denied-handler error-page="/athleteaccountv2/access-denied" />
+		<access-denied-handler error-page="/athleteaccountv2/access-denied" />		
 		<intercept-url pattern="/athleteaccountv2/login" access="permitAll" /> <!-- NEED THIS OR ELSE END UP IN INFINTTE REDIRECT LOOP... -->
+		<intercept-url pattern="/athleteaccountv2/registration" access="permitAll" />
+		<intercept-url pattern="/athleteaccountv2/register/user" access="permitAll" />
+
 		<intercept-url pattern="/**" access="hasAnyRole('ROLE_ATHLETE', 'ROLE_ADMIN')" />
 		<form-login  login-page="/athleteaccountv2/login" authentication-failure-handler-ref="authFailureHandler" default-target-url="/athleteaccountv2/homepage.html" />
 		<logout logout-url="/athleteaccountv2/logout" />  
