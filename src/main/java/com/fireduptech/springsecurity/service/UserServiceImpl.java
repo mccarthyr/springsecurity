@@ -1,7 +1,6 @@
 package com.fireduptech.springsecurity.service;
 
 
-import com.fireduptech.springsecurity.dto.UserDto;
 import com.fireduptech.springsecurity.domain.User;
 
 import com.fireduptech.springsecurity.validation.EmailExistsException;
@@ -28,13 +27,13 @@ public class UserServiceImpl implements UserService {
 
 		User user = new User();
 		//user.setUsername( accountDto.getUsername() );
-		user.setUsername( "TestUserNameService" );
+		user.setUsername( "athlete1" );
 		user.setFirstName( accountDto.getFirstName() );
 		user.setLastName( accountDto.getLastName() );
 		user.setEmail( accountDto.getEmail() );
 
 		// ****** NOTE NOTE NOTE: DEAL WITH PASSWORD ENCODING HERE ******
-		user.setPassword( accountDto.getPassword() );
+		user.setPassword( "athlete1" );
 
 		// THE USER ID WILL BE GENERATED IN THE DATABASE THE FIRST TIME OUT DURING REGISTRATION...
 

@@ -35,6 +35,7 @@
 	</head>
 	<body>
 
+		<c:out value="${successfulRegistrationFlashMessage}"/>
 		<form id="logoutForm" method="POST" action="${pageContext.request.contextPath}/athleteaccountv2/logout" >
 			<security:csrfInput/>
 		</form>

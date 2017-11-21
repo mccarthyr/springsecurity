@@ -32,11 +32,23 @@ import java.util.Iterator;
 import java.util.List;
 
 import com.fireduptech.springsecurity.domain.User;
-import com.fireduptech.springsecurity.dto.UserDto;
 import com.fireduptech.springsecurity.service.UserService;
 import com.fireduptech.springsecurity.validation.EmailExistsException;
 
 import com.fireduptech.springsecurity.validator.UserValidator;
+
+
+// Security Imports
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.AuthorityUtils;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+
+
+// ****** NOTE NOTE NOTE - SEE HERE ABOUT IMPORTING CUSTOM USER REPOSITORY WHEN PUTTING IN DATABASE SAVE JPA CODE... ******
+
 
 
 
@@ -54,7 +66,7 @@ public class RegistrationController {
 	
 
 	/*
-	 * WHen @RequestMapping and @ModelAttribute are used together, the View is taken from the
+	 * When @RequestMapping and @ModelAttribute are used together, the View is taken from the
 	 * URI in the requestMapping (the path field below) and the returned object is set as a model attribute.
 	 * Springs uses the RequestToViewNameTranslator class to determine the view based on the request URI
 	*/
@@ -87,8 +99,9 @@ public class RegistrationController {
 
 
 	@RequestMapping( path = "register/user", params = "acAction=register", method = RequestMethod.POST )	
-	public String registerNewUserAccount( @ModelAttribute( "user" ) @Valid final User user, final BindingResult bindingResult ) {
-
+	//public ModelAndView registerNewUserAccount( @ModelAttribute( "user" ) @Valid final User user, final BindingResult bindingResult, RedirectAttributes redirectAttributes ) {
+	//public ModelAndView registerNewUserAccount( @ModelAttribute( "user" ) @Valid final User user, final BindingResult bindingResult, ModelMap model ) {
+	public String registerNewUserAccount( @ModelAttribute( "user" ) @Valid final User user, final BindingResult bindingResult, RedirectAttributes redirectAttributes ) {
 
 		new UserValidator().validate( user, bindingResult ); // Use with @Valid in method argument to execute both annotations an custom class
 		// NOTE: If not using @Valid annotation (with @InitBinder method) then use above line to execute my UserValidator class
@@ -100,27 +113,37 @@ public class RegistrationController {
 		User registered = null;
 
 		if ( bindingResult.hasErrors() ) {
+
 			return "registration";
+			//return new ModelAndView( "registration" );
+
 		} else {
+
+			// NOTE: CURRENTLY RETURNING SIMULATED SUCCESSFUL REGISTER
 			registered = userService.registerNewUserAccount( user );
 
+			/*
+			--------------
+			NEXT STEPS:
+			--------------
 
-			// Assume the registration was successful at this point....
-			//@TODO - SEE ABOUT ADDING TO HTTP SERVLET REQUEST ATTRIBUTE HERE TO PUT IN ATTRIBUTE FOR FORWARD TO CAN SEE IT ON HOMEPAGE ONLY WHEN COMING FROM HERE...
-/*
-CAN NOT USE THIS - AS FORWARDS A POST AND THE LOGIN PAGE IS A GET..WOULD HAVE TO DO A REDIRECT TO MAKE THAT HAPPEN...AS WITH A FORWARD (SERVER SIDE) THE ORIGINAL REQUEST STAYS INTACT...
+			Complete the User Registration Process. This involves:
+			- Setting up Full Database Model for this
+			- JPA Database setup
+			- Password Encoding
 
-		MIGHT HAVE TO DO A PROGRAMMACTIC LOGIN IF CONTINUE WITH THE FORWARDING WORKFLOW...WOULD FORWARD TO AN INTERNAL LOGIN CONTROLLER AND TAKE THE MODEL SENT ON (WHICH HAS BEEN REGISTERED) AND 
-		LOG THE USER IN TO THE SYSTEM...THIS MIGHT BE THE NEATEST SOLUTION IF POSSIBLE...Otherwise making the user to login then after registering...which is the approach that will take if can not get programmatic login working...
-		THEN WILL HAVE TO RE-WORK SOME OF THIS AGAIN LATER ONCE REMODEL THE DATABASE LATER FOR USING JPA BUT REALLY HAVE TO PUT THIS FULL SYSTEM IN PLACE...
-
-		(DONE) : NOTE NOTE NOTE - FIRST READ UP ON THE VALIDATION STUFF FOR BINDING ERRORS AND SEE CAN FIND A WAY TO FORCE AN ERROR TO GET THAT PART
-											OF THE WORKFLOW GOING...ONCE VALIDATION IS WORKING THEN CAN REUSE THAT FOR LOTS OF STUFF... 
-
-*/
+			*/
 
 
-			return "forward:/athleteaccountv2/login";
+
+			List<GrantedAuthority> authorities = AuthorityUtils.createAuthorityList( "ROLE_ATHLETE" );
+			Authentication auth = new UsernamePasswordAuthenticationToken( user, user.getPassword(), authorities );
+			SecurityContextHolder.getContext().setAuthentication( auth );
+
+
+			redirectAttributes.addFlashAttribute( "successfulRegistrationFlashMessage", "You have been successfully registered" );
+			return "redirect:/athleteaccountv2/athleteAccount/list";
+			
 		}
 
 
@@ -131,7 +154,9 @@ CAN NOT USE THIS - AS FORWARDS A POST AND THE LOGIN PAGE IS A GET..WOULD HAVE TO
 		Like with the Redirect, the forward: prefix will be resolved by the UrlBasedViewResolver and its subclasses. Interally this will create 
 		an InternalResourceView which does a RequestDispatcher.forward() to the new view...
 
-		UNLIKE 'redirect' THE ATTRIBUTS IN MODEL DO NOT PROPAGATE AUTOMATICALLY IN CASE OF FORWARDING, so NEEDS A MANUAL APPROACH USING HTTPSERVLETREQUEST REQUEST VARIABLE...
+		UNLIKE 'redirect' THE ATTRIBUTES IN MODEL DO NOT PROPAGATE AUTOMATICALLY IN CASE OF FORWARDING, so NEEDS A MANUAL APPROACH USING HTTPSERVLETREQUEST REQUEST VARIABLE...
+
+		WITH A FORWARD (SERVER SIDE) THE ORIGINAL REQUEST STAYS INTACT - So a POST remains a POST which will NOT suit forward to Login controller as that is a GET. WILL REQUIRE A PROGRAMMATIC LOGIN INTERNALLY
 
 		IF THE USER IS SUCCESSFULL IN THE REGISTRATION, RATHER THEN SENDING THEM BACK TO A DEAD END SUCCESSFUL REGISTRATION PAGE, THIS IS WHERE A 
 		STRAIGHT FORWARDING COULD COME INTO PLAY AND FORWARD THEM TO LOGIN...
