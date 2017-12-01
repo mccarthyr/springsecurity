@@ -16,3 +16,7 @@ v3.0 release contains a full CRUD ACL database driven solution with an exiting a
 The Domain object that is secured is an AthleteAccountDetails object which is simulating account details for an athlete on what could be a sports data system. An Athlete role can create, edit and update their account but only an Admin role can close then account. The Admin role does not automatically have access to the Athlete account and has to be given access by the owner of the account.
 
 *** PROVIDE A SCRIPT OF THE DATABASE SCHEMA ***
+
+v4.0 release contains a basic custom registration system that integrates with the ACL database tables also and does a programmatic login once registration is successful.
+NOTE: This is just a basic demo registration and the code currently contains a lot of comments as this is still actively in development. The purpose of this is to have a basic template of code to build from and a useful reference as this contains Spring Data JPA entities that have been integrated to use the Spring Security ACL database tables, utilising features such as composite primary keys and @EmbeddedId annotation for an embedded class to represent such keys along with code to access fields from such entities. 
+https://github.com/mccarthyr/springsecurity/releases/tag/v4.0
