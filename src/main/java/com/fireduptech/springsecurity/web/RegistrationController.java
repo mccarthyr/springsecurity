@@ -31,6 +31,7 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
+import com.fireduptech.springsecurity.domain.User;
 import com.fireduptech.springsecurity.domain.AthleteAccount;
 import com.fireduptech.springsecurity.dto.UserDto;
 import com.fireduptech.springsecurity.service.UserService;
@@ -108,7 +109,8 @@ public class RegistrationController {
 		//validator.validate( user, bindingResult );  
 
 
-		AthleteAccount registered = null;
+		//AthleteAccount registeredAthlete = null;
+		User registeredAthlete = null;
 
 		if ( bindingResult.hasErrors() ) {
 
@@ -118,7 +120,7 @@ public class RegistrationController {
 		} else {
 
 			// NOTE: CURRENTLY RETURNING SIMULATED SUCCESSFUL REGISTER
-			registered = userService.registerNewUserAccount( user );
+			registeredAthlete = userService.registerNewUserAccount( user );
 
 
 
@@ -141,27 +143,27 @@ public class RegistrationController {
 				(DONE) 4  - THEN SET UP THE DOMAIN DTO USER OBJECT WITH PERSISTENCE ANNOTATIONS 
 				(DONE) 5  - THEN SET UP THE DOMAIN ATHLETE ACCOUNT DETAILS OBJECT FOR PERSISTENCE 
 				(DONE) 6  - GET AN ENTRY SAVED INTO THE ATHLETE ACCOUNT DETAILS TABLE
-				7  - THEN GET CORRESPONDING ENTRY UPDATED INTO THE USERS & AUTHORITIES TABLE (ACL SYSTEM)
-				8  - TEST THAT IS USER IS BEEN REGISTERED TO THE DATABASE AND SEE HOW THIS IS WORKING WITH SPRING SECURITY ACL
-				9  - ONCE THAT IS ALL DONE THEN INTEGRATE IT WITH PROGAMMATIC LOGIN.
+				(DONE) 7  - THEN GET CORRESPONDING ENTRY UPDATED INTO THE USERS & AUTHORITIES TABLE (ACL SYSTEM)
+				(DONE) 8  - TEST THAT IS USER IS BEEN REGISTERED TO THE DATABASE AND SEE HOW THIS IS WORKING WITH SPRING SECURITY ACL
+				(DONE) 9  - ONCE THAT IS ALL DONE THEN INTEGRATE IT WITH PROGAMMATIC LOGIN.
 				10 - SET UP AND IMPLEMENT THE PASSWORD ENCODING SERVICE AND RETRO-FIT REGISTRATION SYSTEM WITH IT
 				11 - FINAL PART ONCE ALL IS WORKING IS TO PUT THE REGISTRATION WITHIN A TRANSACTION - CODE FOR DEMO CODE AND TO WRITE SMALL ARTICLE ABOUT
 			*/
 
 
 			// NOTE NOTE NOTE - RETURNING THIS (FORCES LOGIN) UNTIL FULL REGISTRATION SYSTEM IS IN PLACE...
-			return "redirect:/athleteaccountv2/athleteAccount/list";
+			//return "redirect:/athleteaccountv2/athleteAccount/list";
 
-			/*
+			
 			List<GrantedAuthority> authorities = AuthorityUtils.createAuthorityList( "ROLE_ATHLETE" );
 			//Authentication auth = new UsernamePasswordAuthenticationToken( user, user.getPassword(), authorities );
-			Authentication auth = new UsernamePasswordAuthenticationToken( registered, registered.getPassword(), authorities );
+			Authentication auth = new UsernamePasswordAuthenticationToken( registeredAthlete, registeredAthlete.getPassword(), authorities );
 			SecurityContextHolder.getContext().setAuthentication( auth );
 
 			// Flash attributes are saved in the HTTP session and hence do not appear in the URL
 			redirectAttributes.addFlashAttribute( "successfulRegistrationFlashMessage", "You have been successfully registered" );
 			return "redirect:/athleteaccountv2/athleteAccount/list";
-			*/
+			
 
 			
 		}

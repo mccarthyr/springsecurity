@@ -41,7 +41,7 @@ public class UserServiceImpl implements UserService {
 
  
 
-	public AthleteAccount registerNewUserAccount( final UserDto userDto ) {
+	public User registerNewUserAccount( final UserDto userDto ) {
 
 		/*
 		if ( emailExists( accountDto.getEmail() ) ) {
@@ -67,9 +67,14 @@ public class UserServiceImpl implements UserService {
 
 		AthleteAccount registeredAthlete = athleteAccountRepository.save( newAthleteAccount );
 
-		updateAclTablesWithNewRegisteredAthlete( email, password );
+		User registeredAclUser =  updateAclTablesWithNewRegisteredAthlete( email, password );
 		
-		return registeredAthlete;
+
+		//BEST TO RETURN THE USER ENTITY HERE AS IT WILL CONTAIN THE USERNAME AND PASSWORD (WHICH EVENTUALLY WILL BE ENCODED) AND USE THAT TO LOG IN...
+
+		return registeredAclUser;
+
+		//return registeredAthlete;
 
 	}	// End of method registerNewUserAccount()...
 
@@ -80,7 +85,7 @@ public class UserServiceImpl implements UserService {
 
 	BY DEFAULT EACH NEW REGISTERED USER GETS A ROLE OF ROLE_ATHLETE - this is hardcoded into this demo version...could look at a more sophisticated registration system if was to make this commercial...
 	*/
-	private void updateAclTablesWithNewRegisteredAthlete( String email, String password ) {
+	private User updateAclTablesWithNewRegisteredAthlete( String email, String password ) {
 
 		// Save to the Users ACL
 		Integer i = new Integer(1);
@@ -97,7 +102,7 @@ public class UserServiceImpl implements UserService {
 
 		Authorities registeredAuthority = authoritiesRepository.save( authorities );
 
-
+		return registeredAclUser;
 
 
 	}	// End of method updateAclTablesWithNewRegisteredAthlete()...
