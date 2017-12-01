@@ -1,50 +1,46 @@
 package com.fireduptech.springsecurity.domain;
 
 
-import javax.validation.constraints.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.Table;
+import javax.persistence.OneToMany;
+import javax.persistence.CascadeType;
 
-import org.hibernate.validator.constraints.NotBlank;
-import org.hibernate.validator.constraints.Email;
+import java.util.Set;
 
 
-// *** NOTE *** THIS CLASS WILL EVENTUALL CONNECT TO JPA AND BE MAPPED TO THE USERS TABLE IN THE DATABASE...
-//							SOME OF THE FIELDS FROM THE ATHLETE ACCOUNT DETAILS CLASS WILL BE ABLE TO GO IN HERE ...
-
-
+@Entity( name = "User" )
+@Table( name = "users" )
 public class User {
 
 
-	// THE USERS TABLE DOESN'T HAVE AN ID ON IT BUT WILL PUT ONE ON IT WHEN USE JPA AND CHECK IT DOESN'T BREAK THE ACL SYSTEM...
-	private long userId;
-
-
+	@Id
 	private String username;
 
+	@Column( name = "password", nullable = false )
 	private String password;
 
-	//@NotBlank
-	private String firstName;
+	@Column( name = "enabled", nullable = false )
+	private short enabled;
 
-	@NotBlank
-	private String lastName;
-
-	//@Email
-	private String email;
+	// The Authorities has a username FK to this entity
+	@OneToMany( cascade = CascadeType.ALL, mappedBy = "id.username" )  // NOTE - UPDATED THE MAPPING TO USED THE EMBEDDED CLASS COMPOSITE PRIMARY KEY STRUCTURE NOW...
+	private Set<Authorities> authorities;
 
 
 	public User() {}
 
-	public User( long userId, String username, String password, 
-							String firstName, String lastName, String email ) {
+	public User( String username, String password, short enabled ) {
 
-		this.userId = userId;
 		this.username = username;
 		this.password = password;
-		this.firstName = firstName;
-		this.lastName = lastName;
-		this.email = email;
+		this.enabled = enabled;
 	}
-
 
 	// Getters
 
@@ -56,16 +52,8 @@ public class User {
 		return this.password;
 	}
 
-	public String getFirstName() {
-		return this.firstName;
-	}
-
-	public String getLastName() {
-		return this.lastName;
-	}
-
-	public String getEmail() {
-		return this.email;
+ 	public short getEnabled() {
+		return this.enabled;
 	}
 
 	// Setters
@@ -78,16 +66,28 @@ public class User {
 		this.password = password;
 	}
 
-	public void setFirstName( String firstName ) {
-		this.firstName = firstName;
+	public void setEnabled( short enabled ) {
+		this.enabled = enabled;
 	}
 
-	public void setLastName( String lastName ) {
-		this.lastName = lastName;
+	@Override
+	public String toString() {
+		return "User [username=" + username + ", enabled=" + enabled +"]";
 	}
 
-	public void setEmail( String email ) {
-		this.email = email;
+	@Override
+	public boolean equals( Object obj ) {
+		
+		if ( !( obj instanceof User ) ) {
+			return false;
+		}
+
+		User user = (User) obj;
+		if (  !user.getUsername().equals( this.getUsername() ) ) {
+			return false;
+		}
+
+		return true;
 	}
 
 

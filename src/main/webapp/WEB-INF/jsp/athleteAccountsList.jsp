@@ -74,34 +74,35 @@
 									<th class="th">Athlete</th>
 								</security:authorize>
 								<th class="th">Account Type</th>
-								<th class="th">Name</th>
+								<th class="th">Firstname</th>
+								<th class="th">Lastname</th>
 								<th class="th">Email</th>
 								<th class="th">Primary Activity</th>
 								<th class="th">Action</th>
 							</tr>
 
-							<c:forEach items="${acdList}" var="athleteAccountDetails" >
+							<c:forEach items="${acdList}" var="athleteAccount" >
 
 								<tr>
-									<td class="td"><c:out value="${athleteAccountDetails.id}" /></td>
+									<td class="td"><c:out value="${athleteAccount.id}" /></td>
 									<security:authorize access="hasRole('ROLE_ADMIN')">
-										<td class="td"><c:out value="${athleteAccountDetails.accountId}" /></td>
+										<td class="td"><c:out value="${athleteAccount.accountType}" /></td>
 									</security:authorize>
-									<td class="td"><c:out value="${athleteAccountDetails.accountType}" /></td>
-									<td class="td"><c:out value="${athleteAccountDetails.name}" /></td>
-									<td class="td"><c:out value="${athleteAccountDetails.email}" /></td>
-									<td class="td"><c:out value="${athleteAccountDetails.primaryActivity}" /></td>
+									<td class="td"><c:out value="${athleteAccount.firstName}" /></td>
+									<td class="td"><c:out value="${athleteAccount.lastName}" /></td>
+									<td class="td"><c:out value="${athleteAccount.email}" /></td>
+									<td class="td"><c:out value="${athleteAccount.primaryActivity}" /></td>
 
 									<td class="td">
 									<security:authorize access="hasRole('ROLE_ATHLETE')">
 
-										<a href="${pageContext.request.contextPath}/athleteaccountv2/athleteAccount?acAction=view&athleteAccountId=${athleteAccountDetails.id}" style="color: green">Edit</a>&nbsp;&nbsp;
+										<a href="${pageContext.request.contextPath}/athleteaccountv2/athleteAccount?acAction=view&athleteAccountId=${athleteAccount.id}" style="color: green">Edit</a>&nbsp;&nbsp;
 
-										<a href="${pageContext.request.contextPath}/athleteaccountv2/athleteAccount?acAction=provideAccessToAdmin&athleteAccountId=${athleteAccountDetails.id}" style="color: green">Provide Access To Admin</a>
+										<a href="${pageContext.request.contextPath}/athleteaccountv2/athleteAccount?acAction=provideAccessToAdmin&athleteAccountId=${athleteAccount.id}" style="color: green">Provide Access To Admin</a>
 									</security:authorize>
 
 									<security:authorize access="hasRole('ROLE_ADMIN')" >
-										<a href="${pageContext.request.contextPath}/athleteaccountv2/athleteAccount?acAction=close&athleteAccountId=${athleteAccountDetails.id}" style="color: green">Close</a>&nbsp;&nbsp;
+										<a href="${pageContext.request.contextPath}/athleteaccountv2/athleteAccount?acAction=close&athleteAccountId=${athleteAccount.id}" style="color: green">Close</a>&nbsp;&nbsp;
 									</security:authorize>
 									</td>
 

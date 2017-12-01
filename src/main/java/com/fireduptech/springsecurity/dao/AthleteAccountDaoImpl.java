@@ -21,7 +21,7 @@ import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 
-import com.fireduptech.springsecurity.domain.AthleteAccountDetails;
+import com.fireduptech.springsecurity.domain.AthleteAccount;
 
 
 @Repository
@@ -34,25 +34,26 @@ public class AthleteAccountDaoImpl implements AthleteAccountDao {
 
 
 	@Override
-	public AthleteAccountDetails getAthleteAccount( int athleteAccountId ) {
+	public AthleteAccount getAthleteAccount( int athleteAccountId ) {
 
-		final String sql = "select * from athlete_account_details where id = :athleteAccountId";
+		final String sql = "select * from athlete_account where id = :athleteAccountId";
 
 		SqlParameterSource namedParameters = new MapSqlParameterSource( "athleteAccountId", athleteAccountId );
 
 		return namedParameterJdbcTemplate.query( sql, namedParameters,
-				new ResultSetExtractor<AthleteAccountDetails>() {
+				new ResultSetExtractor<AthleteAccount>() {
 					
-					AthleteAccountDetails acd = new AthleteAccountDetails();
+					AthleteAccount acd = new AthleteAccount();
 
 					@Override
-					public AthleteAccountDetails extractData( ResultSet rs ) throws SQLException, DataAccessException {
+					public AthleteAccount extractData( ResultSet rs ) throws SQLException, DataAccessException {
 						while ( rs.next() ) {
-							acd.setId( rs.getLong( "id" ) );
-							acd.setAccountType( rs.getString( "accountType" ) );
-							acd.setName( rs.getString( "name" ) );
+							acd.setId( Integer.parseInt( rs.getString( "id" ) ) );
+							acd.setAccountType( rs.getString( "account_type" ) );
+							acd.setFirstName( rs.getString( "first_name" ) );
+							acd.setLastName( rs.getString( "last_name" ) );
 							acd.setEmail( rs.getString( "email" ) );
-							acd.setPrimaryActivity( rs.getString( "primaryActivity" ) );
+							acd.setPrimaryActivity( rs.getString( "primary_activity" ) );
 						}
 						return acd;
 					}
@@ -62,24 +63,25 @@ public class AthleteAccountDaoImpl implements AthleteAccountDao {
 
 
 	@Override
-	public List<AthleteAccountDetails> getAllAthleteAccounts() {
+	public List<AthleteAccount> getAllAthleteAccounts() {
 
-		final String sql = "select * from athlete_account_details";
+		final String sql = "select * from athlete_account";
 
 		return namedParameterJdbcTemplate.query( sql, 
-				new ResultSetExtractor<List<AthleteAccountDetails>>() {
+				new ResultSetExtractor<List<AthleteAccount>>() {
 
-					List<AthleteAccountDetails> acds = new ArrayList<AthleteAccountDetails>();
+					List<AthleteAccount> acds = new ArrayList<AthleteAccount>();
 
 					@Override
-					public List<AthleteAccountDetails> extractData( ResultSet rs ) throws SQLException, DataAccessException {
+					public List<AthleteAccount> extractData( ResultSet rs ) throws SQLException, DataAccessException {
 							while ( rs.next() ) {
-								AthleteAccountDetails acd = new AthleteAccountDetails();
-								acd.setId( rs.getLong( "id" ) );
-								acd.setAccountType( rs.getString( "accountType" ) );
-								acd.setName( rs.getString( "name" ) );
+								AthleteAccount acd = new AthleteAccount();
+								acd.setId( Integer.parseInt( rs.getString( "id" ) ) );
+								acd.setAccountType( rs.getString( "account_type" ) );
+								acd.setFirstName( rs.getString( "first_name" ) );
+								acd.setLastName( rs.getString( "last_name" ) );
 								acd.setEmail( rs.getString( "email" ) );
-								acd.setPrimaryActivity( rs.getString( "primaryActivity" ) );
+								acd.setPrimaryActivity( rs.getString( "primary_activity" ) );
 								acds.add( acd );
 							}
 
@@ -91,22 +93,25 @@ public class AthleteAccountDaoImpl implements AthleteAccountDao {
 
 
 	@Override
-	public void saveAthleteAccount(AthleteAccountDetails athleteAccountDetails ) {
+	public void saveAthleteAccount(AthleteAccount athleteAccount ) {
 
-		final String sql = "insert into athlete_account_details( accountType, name, email, primaryActivity ) "
-												+ "values( :accountType, :name, :email, :primaryActivity )";
+		final String sql = "insert into athlete_account( account_type, first_name, last_name, email, primary_activity ) "
+												+ "values( :account_type, :name, :email, :primary_activity )";
 
 		Map<String, String> namedParams = new HashMap<String, String>();
-		namedParams.put( "accountType", athleteAccountDetails.getAccountType() );
-		namedParams.put( "name", athleteAccountDetails.getName() );
-		namedParams.put( "email", athleteAccountDetails.getEmail() );
-		namedParams.put( "primaryActivity", athleteAccountDetails.getPrimaryActivity() );
+		namedParams.put( "account_type", athleteAccount.getAccountType() );
+		namedParams.put( "first_name", athleteAccount.getFirstName() );
+		namedParams.put( "last_name", athleteAccount.getLastName() );
+		namedParams.put( "email", athleteAccount.getEmail() );
+		namedParams.put( "primary_activity", athleteAccount.getPrimaryActivity() );
 
 		SqlParameterSource sqlParams = new MapSqlParameterSource( namedParams );
 		KeyHolder keyHolder = new GeneratedKeyHolder();
 		namedParameterJdbcTemplate.update( sql, sqlParams, keyHolder );
 
-		athleteAccountDetails.setId( keyHolder.getKey().longValue() );
+		athleteAccount.setId( keyHolder.getKey().intValue() );
+
+		//athleteAccount.setId( keyHolder.getKey().longValue() );
 
 	}	// End of method saveAthleteAccount()...
 
@@ -115,7 +120,7 @@ public class AthleteAccountDaoImpl implements AthleteAccountDao {
 	@Override
 	public void closeAthleteAccount( int athleteAccountId ) {
 
-		final String sql = "delete from athlete_account_details where id = :athleteAccountId";
+		final String sql = "delete from athlete_account where id = :athleteAccountId";
 
 		SqlParameterSource namedParameters = new MapSqlParameterSource( "athleteAccountId", athleteAccountId );
 
@@ -126,18 +131,20 @@ public class AthleteAccountDaoImpl implements AthleteAccountDao {
 
 
 	@Override
-	public void editAthleteAccount( AthleteAccountDetails modifiedAthleteAccountDetails ) {
+	public void editAthleteAccount( AthleteAccount modifiedAthleteAccount ) {
 
-		final String sql = "update athlete_account_details "
-							+ "set accountType = :accountType, name = :name, email = :email, primaryActivity = :primaryActivity "
+		final String sql = "update athlete_account "
+							+ "set account_type = :account_type, first_name = :first_name, last_name = :last_name, email = :email, primary_activity = :primary_activity "
 							+ "where id = :athleteAccountId";
 
 		Map<String, String> namedParams = new HashMap<String, String>();
-		namedParams.put( "accountType", modifiedAthleteAccountDetails.getAccountType() );
-		namedParams.put( "name", modifiedAthleteAccountDetails.getName() );
-		namedParams.put( "email", modifiedAthleteAccountDetails.getEmail() );
-		namedParams.put( "primaryActivity", modifiedAthleteAccountDetails.getPrimaryActivity() );
-		namedParams.put( "athleteAccountId", Long.toString( modifiedAthleteAccountDetails.getId() ) );
+		namedParams.put( "account_type", modifiedAthleteAccount.getAccountType() );
+		namedParams.put( "first_name", modifiedAthleteAccount.getFirstName() );
+		namedParams.put( "last_name", modifiedAthleteAccount.getLastName() );
+		namedParams.put( "email", modifiedAthleteAccount.getEmail() );
+		namedParams.put( "primary_activity", modifiedAthleteAccount.getPrimaryActivity() );
+		namedParams.put( "athleteAccountId", Integer.toString( modifiedAthleteAccount.getId() ) );
+//		namedParams.put( "athleteAccountId", Long.toString( modifiedAthleteAccount.getId() ) );
 
 		SqlParameterSource sqlParams = new MapSqlParameterSource( namedParams );
 

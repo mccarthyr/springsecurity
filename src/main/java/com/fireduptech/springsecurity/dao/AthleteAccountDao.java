@@ -2,17 +2,17 @@ package com.fireduptech.springsecurity.dao;
 
 import java.util.List;
 
-import com.fireduptech.springsecurity.domain.AthleteAccountDetails;
+import com.fireduptech.springsecurity.domain.AthleteAccount;
 
 public interface AthleteAccountDao {
 
-	AthleteAccountDetails getAthleteAccount( int athleteAccountId );
+	AthleteAccount getAthleteAccount( int athleteAccountId );
 
-	List<AthleteAccountDetails> getAllAthleteAccounts();
+	List<AthleteAccount> getAllAthleteAccounts();
 
-	void saveAthleteAccount(AthleteAccountDetails athleteAccountDetails );
+	void saveAthleteAccount(AthleteAccount athleteAccount );
 
-	void editAthleteAccount( AthleteAccountDetails athleteAccountDetails );
+	void editAthleteAccount( AthleteAccount athleteAccount );
 
 	void closeAthleteAccount( int athleteAccountId );
 }

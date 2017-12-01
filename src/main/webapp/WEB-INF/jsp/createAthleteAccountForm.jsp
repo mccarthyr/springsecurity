@@ -48,25 +48,31 @@
 					<table class="border" cellpadding="10">
 						<tr>
 							<td class="td"><b>Account Type (Freemium/Premium)</b></td>
-							<td class="td"><input type="text" name="accountType" value="${requestScope.athleteAccountDetails.accountType}" />
+							<td class="td"><input type="text" name="accountType" value="${requestScope.athleteAccount.accountType}" />
 								<font style="color: #C11B17;"><c:out value="${requestScope['error.accountType']}" /></font></td>
 						</tr>
 
 						<tr>
-							<td class="td"><b>Name</b></td>
-							<td class="td"><input type="text" name="name" value="${requestScope.athleteAccountDetails.name}" /><font
-								style="color: #C11B17;"><c:out value="${requestScope['error.name']}" /></font></td>
+							<td class="td"><b>Firstname</b></td>
+							<td class="td"><input type="text" name="firstName" value="${requestScope.athleteAccount.firstName}" /><font
+								style="color: #C11B17;"><c:out value="${requestScope['error.firstName']}" /></font></td>
+						</tr>
+
+						<tr>
+							<td class="td"><b>Latname</b></td>
+							<td class="td"><input type="text" name="lastName" value="${requestScope.athleteAccount.lastName}" /><font
+								style="color: #C11B17;"><c:out value="${requestScope['error.lastName']}" /></font></td>
 						</tr>
 
 						<tr>
 							<td class="td"><b>Email</b></td>
-							<td class="td"><input type="text" name="email" value="${requestScope.athleteAccountDetails.email}" /><font
+							<td class="td"><input type="text" name="email" value="${requestScope.athleteAccount.email}" /><font
 								style="color: #C11B17;"><c:out value="${requestScope['error.email']}" /></font></td>
 						</tr>
 
 						<tr>
 							<td class="td"><b>Primary Activity</b></td>
-							<td class="td"><input type="text" name="primaryActivity" value="${requestScope.athleteAccountDetails.primaryActivity}" /><font
+							<td class="td"><input type="text" name="primaryActivity" value="${requestScope.athleteAccount.primaryActivity}" /><font
 								style="color: #C11B17;"><c:out value="${requestScope['error.primaryActivity']}" /></font></td>
 						</tr>
 

@@ -26,11 +26,6 @@
 								<td style="font-family: 'arial'; font-size: 12px; font-weight: normal; color: red;"><c:out value="${param.exceptionMsg}"/></b></td>
 							</tr>
 							<tr>
-								<td class="td"><b>Username:</b></td>
-								<!-- *** NOTE: Each path attribute MUST correspond to a getter/setter of the Model Attribute... *** -->
-								<td class="td"><form:input type="text" path="username" value="" /></td>
-							</tr>
-							<tr>
 								<td class="td"><b>Password:</b></td>
 								<td class="td"><form:input type="password" path="password" value="" /></td>
 							</tr>
@@ -62,6 +57,23 @@
 									</font>
 								</td>
 							</tr>
+							<tr>
+								<td class="td"><b>Account Type:</b></td>
+								<td class="td"><form:input type="text" path="accountType" value="" />
+									<font style="color: #C11B17;">
+										<form:errors path="accountType" />
+									</font>
+								</td>
+							</tr>
+							<tr>
+								<td class="td"><b>Primary Activity:</b></td>
+								<td class="td"><form:input type="text" path="primaryActivity" value="" />
+									<font style="color: #C11B17;">
+										<form:errors path="primaryActivity" />
+									</font>
+								</td>
+							</tr>
+
 						</table>
 					</td>
 				</tr>

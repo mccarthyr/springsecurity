@@ -17,7 +17,7 @@ import org.springframework.security.acls.model.Sid;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import com.fireduptech.springsecurity.dao.AthleteAccountDao;
-import com.fireduptech.springsecurity.domain.AthleteAccountDetails;
+import com.fireduptech.springsecurity.domain.AthleteAccount;
 
 
 @Service
@@ -31,10 +31,10 @@ public class AthleteAccountServiceImpl implements AthleteAccountService {
 
 
 
-	private void addPermission( long athleteAccountId, Sid recipient, Permission permission ) {
+	private void addPermission( int athleteAccountId, Sid recipient, Permission permission ) {
 
 		MutableAcl acl;
-		ObjectIdentity oid = new ObjectIdentityImpl( AthleteAccountDetails.class, athleteAccountId );
+		ObjectIdentity oid = new ObjectIdentityImpl( AthleteAccount.class, athleteAccountId );
 
 		try {
 			acl = (MutableAcl) mutableAclService.readAclById( oid );
@@ -51,32 +51,32 @@ public class AthleteAccountServiceImpl implements AthleteAccountService {
 
 
 	@Override
-	public AthleteAccountDetails getAthleteAccount( int athleteAccountId  ) {
+	public AthleteAccount getAthleteAccount( int athleteAccountId  ) {
 		return athleteAccountDao.getAthleteAccount( athleteAccountId );
 	}
 
 	@Override
-	public List<AthleteAccountDetails> getAllAthleteAccounts() {
+	public List<AthleteAccount> getAllAthleteAccounts() {
 		return athleteAccountDao.getAllAthleteAccounts();
 	}
 
 	@Override
-	public void saveAthleteAccount(AthleteAccountDetails athleteAccountDetails ) {
+	public void saveAthleteAccount(AthleteAccount athleteAccount ) {
 		
-		athleteAccountDao.saveAthleteAccount( athleteAccountDetails );
+		athleteAccountDao.saveAthleteAccount( athleteAccount );
 
-		addPermission( athleteAccountDetails.getId(), 
+		addPermission( athleteAccount.getId(), 
 						new PrincipalSid( SecurityContextHolder.getContext().getAuthentication().getName() ), 
 						BasePermission.READ );
-		addPermission( athleteAccountDetails.getId(), 
+		addPermission( athleteAccount.getId(), 
 						new PrincipalSid( SecurityContextHolder.getContext().getAuthentication().getName() ), 
 						BasePermission.WRITE );
 	}
 
 
 	@Override
-	public void editAthleteAccount( AthleteAccountDetails athleteAccountDetails ) {
-		athleteAccountDao.editAthleteAccount( athleteAccountDetails );
+	public void editAthleteAccount( AthleteAccount athleteAccount ) {
+		athleteAccountDao.editAthleteAccount( athleteAccount );
 	}
 
 
@@ -85,7 +85,7 @@ public class AthleteAccountServiceImpl implements AthleteAccountService {
 
 		athleteAccountDao.closeAthleteAccount( athleteAccountId );
 
-		ObjectIdentity oid = new ObjectIdentityImpl( AthleteAccountDetails.class, athleteAccountId );
+		ObjectIdentity oid = new ObjectIdentityImpl( AthleteAccount.class, athleteAccountId );
 		mutableAclService.deleteAcl( oid, false );
 	}
 

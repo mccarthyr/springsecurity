@@ -2,8 +2,13 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:tx="http://www.springframework.org/schema/tx"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context 
-        http://www.springframework.org/schema/context/spring-context.xsd">
+        http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa.xsd 
+        http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
+        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
 
 	<context:component-scan
 		base-package="com.fireduptech.springsecurity.domain, com.fireduptech.springsecurity.dao, com.fireduptech.springsecurity.service" />
@@ -23,13 +28,37 @@
 	</bean>
 
 
+	<!--  Spring Data JPA -->
+	<!--  The base-package specifies the package and its sub-packages to scan for Spring Data JPA repositories -->
+	<jpa:repositories base-package="com.fireduptech.springsecurity.repository" />
 
-<!-- Do not need to explicitly define this to use to Spring Validation API
-	<bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean" />
--->
+	<bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean" >
+		<property name="dataSource" ref="dataSource" />
+		<property name="packagesToScan" value="com.fireduptech.springsecurity" />
+		<property name="jpaVendorAdapter" ref="hibernateVendorAdapter" />
+		<property name="jpaProperties" ref="props" />
+	</bean>
 
 
+	<bean id="hibernateVendorAdapter" class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter" />
+
+	<util:properties id="props" >
+		<prop key="hibernate.show_sql">true</prop>
+		<prop key="hibernate.id.new_generator_mappings">false</prop>
+	</util:properties>
 	
+	<!-- The <annotation-driven> element of Spring's TX Schema enables Declarative Transaction Management -->
+
+	<tx:annotation-driven transaction-manager="transactionManager" />
+
+	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager" >
+		<constructor-arg ref="entityManagerFactory" />
+	</bean>
+
+
+
+
+
 
 
 </beans>

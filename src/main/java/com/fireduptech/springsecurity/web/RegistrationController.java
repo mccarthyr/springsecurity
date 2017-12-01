@@ -31,11 +31,13 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
-import com.fireduptech.springsecurity.domain.User;
+import com.fireduptech.springsecurity.domain.AthleteAccount;
+import com.fireduptech.springsecurity.dto.UserDto;
 import com.fireduptech.springsecurity.service.UserService;
 import com.fireduptech.springsecurity.validation.EmailExistsException;
 
 import com.fireduptech.springsecurity.validator.UserValidator;
+
 
 
 // Security Imports
@@ -47,17 +49,13 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 
 
-// ****** NOTE NOTE NOTE - SEE HERE ABOUT IMPORTING CUSTOM USER REPOSITORY WHEN PUTTING IN DATABASE SAVE JPA CODE... ******
-
-
-
-
 @Controller
 public class RegistrationController {
 
 
 	@Autowired
 	private UserService userService;
+
 
 
 	// Uncomment these to explicitly use Spring Validation API
@@ -73,9 +71,9 @@ public class RegistrationController {
 
 	@RequestMapping( path = "/registration", method = RequestMethod.GET )
 	@ModelAttribute( name = "user" )
-	public User showRegistrationPage() {
+	public UserDto showRegistrationPage() {
 
-		return new User();
+		return new UserDto();
 
 	}	// End of method showRegistrationPage()...
 
@@ -101,7 +99,7 @@ public class RegistrationController {
 	@RequestMapping( path = "register/user", params = "acAction=register", method = RequestMethod.POST )	
 	//public ModelAndView registerNewUserAccount( @ModelAttribute( "user" ) @Valid final User user, final BindingResult bindingResult, RedirectAttributes redirectAttributes ) {
 	//public ModelAndView registerNewUserAccount( @ModelAttribute( "user" ) @Valid final User user, final BindingResult bindingResult, ModelMap model ) {
-	public String registerNewUserAccount( @ModelAttribute( "user" ) @Valid final User user, final BindingResult bindingResult, RedirectAttributes redirectAttributes ) {
+	public String registerNewUserAccount( @ModelAttribute( "user" ) @Valid final UserDto user, final BindingResult bindingResult, RedirectAttributes redirectAttributes ) {
 
 		new UserValidator().validate( user, bindingResult ); // Use with @Valid in method argument to execute both annotations an custom class
 		// NOTE: If not using @Valid annotation (with @InitBinder method) then use above line to execute my UserValidator class
@@ -110,7 +108,7 @@ public class RegistrationController {
 		//validator.validate( user, bindingResult );  
 
 
-		User registered = null;
+		AthleteAccount registered = null;
 
 		if ( bindingResult.hasErrors() ) {
 
@@ -122,6 +120,10 @@ public class RegistrationController {
 			// NOTE: CURRENTLY RETURNING SIMULATED SUCCESSFUL REGISTER
 			registered = userService.registerNewUserAccount( user );
 
+
+
+
+
 			/*
 			--------------
 			NEXT STEPS:
@@ -131,18 +133,36 @@ public class RegistrationController {
 			- Setting up Full Database Model for this
 			- JPA Database setup
 			- Password Encoding
-
+			*/
+			/*
+				(DONE) 1  - NEXT STEP IS TO COMPILE AS IS TO SEE EVERYTHING DOWNLOADS OK AND CONFIG IS OK (UNLESS RUN TIME ISSUE LATER)
+				(DONE) 2  - DEPLOY IT THEN JUST TO SEE ALL IS STILL RUNNING OK.
+				(DONE) 3  - THEN MODEL DATABASE ON PAPER AND WHAT WANT FROM IT
+				(DONE) 4  - THEN SET UP THE DOMAIN DTO USER OBJECT WITH PERSISTENCE ANNOTATIONS 
+				(DONE) 5  - THEN SET UP THE DOMAIN ATHLETE ACCOUNT DETAILS OBJECT FOR PERSISTENCE 
+				(DONE) 6  - GET AN ENTRY SAVED INTO THE ATHLETE ACCOUNT DETAILS TABLE
+				7  - THEN GET CORRESPONDING ENTRY UPDATED INTO THE USERS & AUTHORITIES TABLE (ACL SYSTEM)
+				8  - TEST THAT IS USER IS BEEN REGISTERED TO THE DATABASE AND SEE HOW THIS IS WORKING WITH SPRING SECURITY ACL
+				9  - ONCE THAT IS ALL DONE THEN INTEGRATE IT WITH PROGAMMATIC LOGIN.
+				10 - SET UP AND IMPLEMENT THE PASSWORD ENCODING SERVICE AND RETRO-FIT REGISTRATION SYSTEM WITH IT
+				11 - FINAL PART ONCE ALL IS WORKING IS TO PUT THE REGISTRATION WITHIN A TRANSACTION - CODE FOR DEMO CODE AND TO WRITE SMALL ARTICLE ABOUT
 			*/
 
 
+			// NOTE NOTE NOTE - RETURNING THIS (FORCES LOGIN) UNTIL FULL REGISTRATION SYSTEM IS IN PLACE...
+			return "redirect:/athleteaccountv2/athleteAccount/list";
 
+			/*
 			List<GrantedAuthority> authorities = AuthorityUtils.createAuthorityList( "ROLE_ATHLETE" );
-			Authentication auth = new UsernamePasswordAuthenticationToken( user, user.getPassword(), authorities );
+			//Authentication auth = new UsernamePasswordAuthenticationToken( user, user.getPassword(), authorities );
+			Authentication auth = new UsernamePasswordAuthenticationToken( registered, registered.getPassword(), authorities );
 			SecurityContextHolder.getContext().setAuthentication( auth );
 
-
+			// Flash attributes are saved in the HTTP session and hence do not appear in the URL
 			redirectAttributes.addFlashAttribute( "successfulRegistrationFlashMessage", "You have been successfully registered" );
 			return "redirect:/athleteaccountv2/athleteAccount/list";
+			*/
+
 			
 		}
 

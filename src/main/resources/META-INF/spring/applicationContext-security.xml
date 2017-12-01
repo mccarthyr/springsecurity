@@ -75,6 +75,11 @@ EVERY URL LISTED HERE WILL HAVE /helloSpringSecurity/ PUT IN FRONT OF IT (set in
 -->
 
 
+	<!-- Do not need to explicitly define this to use to Spring Validation API
+	<bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean" />
+	-->
+
+
 
 
 	<http use-expressions="true">

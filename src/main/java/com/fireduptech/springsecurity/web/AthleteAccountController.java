@@ -30,7 +30,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 //import org.apache.commons.lang3.math.NumberUtils;  - This is DEPRECATED
 import org.apache.commons.lang.math.NumberUtils;
 
-import com.fireduptech.springsecurity.domain.AthleteAccountDetails;
+import com.fireduptech.springsecurity.domain.AthleteAccount;
 import com.fireduptech.springsecurity.service.AthleteAccountService;
 
 
@@ -50,7 +50,7 @@ public class AthleteAccountController {
 	@RequestMapping( value= "/list", method = RequestMethod.GET )
 	public ModelAndView listAthleteAccounts( Principal principal ) {
 
-		Map<String, List<AthleteAccountDetails>> modelData = new HashMap<String, List<AthleteAccountDetails>>();
+		Map<String, List<AthleteAccount>> modelData = new HashMap<String, List<AthleteAccount>>();
 
 		Collection<GrantedAuthority> authorities = (Collection<GrantedAuthority>) SecurityContextHolder.getContext().getAuthentication().getAuthorities();
 
@@ -76,10 +76,10 @@ public class AthleteAccountController {
 	@RequestMapping( params = "acAction=createACForm", method = RequestMethod.POST )
 	public ModelAndView showOpenAthleteAccountForm() {
 
-		AthleteAccountDetails athleteAccountDetails = new AthleteAccountDetails();
-		athleteAccountDetails.setEmail( "You must enter a valid email" );
+		AthleteAccount athleteAccount = new AthleteAccount();
+		athleteAccount.setEmail( "You must enter a valid email" );
 		ModelMap modelData = new ModelMap();
-		modelData.addAttribute( athleteAccountDetails );
+		modelData.addAttribute( athleteAccount );
 		return new ModelAndView( "createAthleteAccountForm", modelData );
 
 	}	// End of method showOpenAthleteAccountForm()...
@@ -89,9 +89,10 @@ public class AthleteAccountController {
 	@RequestMapping( params = "acAction=create", method = RequestMethod.POST )
 	public ModelAndView createAthleteAccount( @RequestParam Map<String, String> params, Principal principal ) {
 
-		String accountType = params.get("accountType");
-		String name = params.get("name");
 		String email = params.get("email");
+		String firstName = params.get("firstName");
+		String lastName = params.get("lastName");
+		String accountType = params.get("accountType");
 		String primaryActivity = params.get("primaryActivity");
 
 		Map<String, Object> modelData = new HashMap<String, Object>();
@@ -102,10 +103,13 @@ public class AthleteAccountController {
 			modelData.put( "error.accountType", "must not be blank" );
 		}
 
-		if ( name == null || "".equalsIgnoreCase( name ) ) {
-			modelData.put( "error.name", "enter a name" );
+		if ( firstName == null || "".equalsIgnoreCase( firstName ) ) {
+			modelData.put( "error.firstName", "enter a first name" );
 		}
 
+		if ( lastName == null || "".equalsIgnoreCase( lastName ) ) {
+			modelData.put( "error.lastName", "enter a last name" );
+		}
 
 		if ( !primaryActivity.equalsIgnoreCase("cycling") && !primaryActivity.equalsIgnoreCase("running") ) {
 			modelData.put( "error.primaryActivity", "enter a valid primary activity" );
@@ -120,18 +124,21 @@ public class AthleteAccountController {
 			modelData.put( "error.email", "invalid email address structure" );
 		}
 
-		AthleteAccountDetails athleteAccountDetails = new AthleteAccountDetails();
-		athleteAccountDetails.setAccountType( accountType );
-		athleteAccountDetails.setName( name );
-		athleteAccountDetails.setEmail( email );
-		athleteAccountDetails.setPrimaryActivity( primaryActivity );
-		athleteAccountDetails.setAccountId( principal.getName() );
+		AthleteAccount athleteAccount = new AthleteAccount();
+		athleteAccount.setFirstName( firstName );
+		athleteAccount.setLastName( lastName );
+		athleteAccount.setEmail( email );
+		athleteAccount.setAccountType( accountType );
+		athleteAccount.setPrimaryActivity( primaryActivity );
+
+//		athleteAccount.setAccountId( principal.getName() );			<--- NOTE NOTE NOTE : REMOVED THIS DURING THE JPA UPGRADE ***
+
 
 		if ( modelData.size() > 0 ) { // This means that there are Validation Errors
-			modelData.put( "athleteAccountDetails", athleteAccountDetails );
+			modelData.put( "athleteAccount", athleteAccount );
 			return new ModelAndView( "createAthleteAccountForm", modelData );
 		} else {
-			athleteAccountService.saveAthleteAccount( athleteAccountDetails );
+			athleteAccountService.saveAthleteAccount( athleteAccount );
 			return new ModelAndView( "redirect:/athleteaccountv2/athleteAccount/list" );
 		}
 
@@ -142,9 +149,10 @@ public class AthleteAccountController {
 	public ModelAndView editAthleteAccount( @RequestParam MultiValueMap<String, String> params, Principal principal ) {
 
 		String id = params.get("id").get(0);
-		String accountType = params.get("accountType").get(0);
-		String name = params.get("name").get(0);
 		String email = params.get("email").get(0);
+		String firstName = params.get("firstName").get(0);
+		String lastName = params.get("lastName").get(0);
+		String accountType = params.get("accountType").get(0);
 		String primaryActivity = params.get("primaryActivity").get(0);
 
 		Map<String, Object> modelData = new HashMap<String, Object>();
@@ -155,8 +163,12 @@ public class AthleteAccountController {
 			modelData.put( "error.accountType", "must not be blank" );
 		}
 
-		if ( name == null || "".equalsIgnoreCase( name ) ) {
-			modelData.put( "error.name", "enter a name" );
+		if ( firstName == null || "".equalsIgnoreCase( firstName ) ) {
+			modelData.put( "error.firstName", "enter a first name" );
+		}
+
+		if ( lastName == null || "".equalsIgnoreCase( lastName ) ) {
+			modelData.put( "error.lastName", "enter a last name" );
 		}
 
 
@@ -180,19 +192,23 @@ public class AthleteAccountController {
 		}*/
 
 
-		AthleteAccountDetails athleteAccountDetails = new AthleteAccountDetails();
-		athleteAccountDetails.setId( Integer.parseInt( id ) );
-		athleteAccountDetails.setAccountType( accountType );
-		athleteAccountDetails.setName( name );
-		athleteAccountDetails.setEmail( email );
-		athleteAccountDetails.setPrimaryActivity( primaryActivity );
-		athleteAccountDetails.setAccountId( principal.getName() );
+		AthleteAccount athleteAccount = new AthleteAccount();
+
+		athleteAccount.setId( Integer.parseInt( id ) );
+
+		athleteAccount.setEmail( email );
+		athleteAccount.setFirstName( firstName );
+		athleteAccount.setLastName( lastName );
+		athleteAccount.setPrimaryActivity( primaryActivity );
+		athleteAccount.setAccountType( accountType );
+
+//		athleteAccount.setAccountId( principal.getName() );
 
 		if ( modelData.size() > 0 ) {	// This means that there are Validation Errors
-			modelData.put( "athleteAccountDetails", athleteAccountDetails );
+			modelData.put( "athleteAccount", athleteAccount );
 			return new ModelAndView( "editAthleteAccountForm", modelData );
 		} else {
-			athleteAccountService.editAthleteAccount( athleteAccountDetails );
+			athleteAccountService.editAthleteAccount( athleteAccount );
 			return new ModelAndView( "redirect:/athleteaccountv2/athleteAccount/list" );
 																
 		}
@@ -208,19 +224,19 @@ public class AthleteAccountController {
 
 
 	@RequestMapping( params = "acAction=view", method = RequestMethod.GET )
-	//public ModelAndView viewAthleteAccountDetails( HttpServletRequest request ) {
-	public ModelAndView viewAthleteAccountDetails( @RequestParam( value = "athleteAccountId" ) int aaId ) {
+	//public ModelAndView viewAthleteAccount( HttpServletRequest request ) {
+	public ModelAndView viewAthleteAccount( @RequestParam( value = "athleteAccountId" ) int aaId ) {
 
-		//AthleteAccountDetails athleteAccountDetails = athleteAccountService.getAthleteAccount( 
+		//AthleteAccount athleteAccount = athleteAccountService.getAthleteAccount( 
 		//	Integer.parseInt( request.getParameter("athleteAccountId") ) );
 
-		AthleteAccountDetails athleteAccountDetails = athleteAccountService.getAthleteAccount( aaId );
+		AthleteAccount athleteAccount = athleteAccountService.getAthleteAccount( aaId );
 
 		ModelMap modelMap = new ModelMap();
-		modelMap.addAttribute( athleteAccountDetails );
+		modelMap.addAttribute( athleteAccount );
 		return new ModelAndView( "editAthleteAccountForm", modelMap );
 
-	}	// End of method viewAthleteAccountDetails()...
+	}	// End of method viewAthleteAccount()...
 
 
 
