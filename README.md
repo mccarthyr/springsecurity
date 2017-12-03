@@ -25,4 +25,4 @@ https://github.com/mccarthyr/springsecurity/releases/tag/v4.0
 v5.0 includes the use of the BCryptPasswordEncoded to encode a users password during registration. This is set up in the applicationContext-Security.xml and also then implemented in the UserServiceImpl class which has the passwod encoded autowired into it and simply calls the encoders encode method. Springs implentation of the BCryptPasswordEncoded has a salt built into it which is generated each time the encode method is called. This means you only need to encode the password once as you could get a different encoded value for the same password by encoding it again due to the generated salt each time.
 
 The Spring ACL that is configured by default will match the encoded passwords for you when you log in the next time. Otherwise you would have to use the matches() method on the encoder to do this.
-
+https://github.com/mccarthyr/springsecurity/releases/tag/v5.0
