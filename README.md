@@ -1,5 +1,7 @@
 # Spring Security Learning Project
 
+## NOTE: This is still very much a learning-development project so the source code is littered with comments, some useful but most are not. This will all be cleaned up and a final release version uploaded which will be marked as such at the top of this README file when it is shortly.
+
 v1.0 release contains the basic secured hello world set up using in-memory users (configured in applicationContext-security.xml). Only when you have logged in will the message be displayed.
 https://github.com/mccarthyr/springsecurity/releases/tag/v1.0
 
