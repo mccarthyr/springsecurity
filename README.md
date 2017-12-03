@@ -20,3 +20,9 @@ The Domain object that is secured is an AthleteAccountDetails object which is si
 v4.0 release contains a basic custom registration system that integrates with the ACL database tables also and does a programmatic login once registration is successful.
 NOTE: This is just a basic demo registration and the code currently contains a lot of comments as this is still actively in development. The purpose of this is to have a basic template of code to build from and a useful reference as this contains Spring Data JPA entities that have been integrated to use the Spring Security ACL database tables, utilising features such as composite primary keys and @EmbeddedId annotation for an embedded class to represent such keys along with code to access fields from such entities. 
 https://github.com/mccarthyr/springsecurity/releases/tag/v4.0
+
+
+v5.0 includes the use of the BCryptPasswordEncoded to encode a users password during registration. This is set up in the applicationContext-Security.xml and also then implemented in the UserServiceImpl class which has the passwod encoded autowired into it and simply calls the encoders encode method. Springs implentation of the BCryptPasswordEncoded has a salt built into it which is generated each time the encode method is called. This means you only need to encode the password once as you could get a different encoded value for the same password by encoding it again due to the generated salt each time.
+
+The Spring ACL that is configured by default will match the encoded passwords for you when you log in the next time. Otherwise you would have to use the matches() method on the encoder to do this.
+
