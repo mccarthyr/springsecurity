@@ -20,6 +20,11 @@ import com.fireduptech.springsecurity.repository.UserRepository;
 import com.fireduptech.springsecurity.repository.AuthoritiesRepository;
 
 
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
+
+
 /*
 	*** NEED IN UPGRADE VERSION OF THIS TO DEAL WITH THROW EXCEPTIONS WHEN UPDATING THE ACL TABLES SO CAN STOP IF SOMETHING GOES WRONG AT THIS POINT OR 
 				ELSE LET THE TRANSACTION STUFF DEAL WITH IT ???
@@ -38,6 +43,9 @@ public class UserServiceImpl implements UserService {
 
 	@Autowired
 	private AuthoritiesRepository authoritiesRepository;
+
+	@Autowired
+	private PasswordEncoder passwordEncoder;
 
  
 
@@ -85,12 +93,17 @@ public class UserServiceImpl implements UserService {
 
 	BY DEFAULT EACH NEW REGISTERED USER GETS A ROLE OF ROLE_ATHLETE - this is hardcoded into this demo version...could look at a more sophisticated registration system if was to make this commercial...
 	*/
-	private User updateAclTablesWithNewRegisteredAthlete( String email, String password ) {
+	private User updateAclTablesWithNewRegisteredAthlete( final String email, final String password ) {
 
 		// Save to the Users ACL
 		Integer i = new Integer(1);
 		short enabled = i.shortValue();
-		User user = new User( email, password, enabled );
+
+		String encryptedPassword = passwordEncoder.encode( password );
+
+		User user = new User( email, encryptedPassword, enabled );
+
+
 
 		User registeredAclUser = userRepository.save( user );
 

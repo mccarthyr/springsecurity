@@ -40,7 +40,6 @@ import com.fireduptech.springsecurity.validation.EmailExistsException;
 import com.fireduptech.springsecurity.validator.UserValidator;
 
 
-
 // Security Imports
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -48,6 +47,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+
 
 
 @Controller
@@ -146,7 +146,7 @@ public class RegistrationController {
 				(DONE) 7  - THEN GET CORRESPONDING ENTRY UPDATED INTO THE USERS & AUTHORITIES TABLE (ACL SYSTEM)
 				(DONE) 8  - TEST THAT IS USER IS BEEN REGISTERED TO THE DATABASE AND SEE HOW THIS IS WORKING WITH SPRING SECURITY ACL
 				(DONE) 9  - ONCE THAT IS ALL DONE THEN INTEGRATE IT WITH PROGAMMATIC LOGIN.
-				10 - SET UP AND IMPLEMENT THE PASSWORD ENCODING SERVICE AND RETRO-FIT REGISTRATION SYSTEM WITH IT
+				(DONE) 10 - SET UP AND IMPLEMENT THE PASSWORD ENCODING SERVICE AND RETRO-FIT REGISTRATION SYSTEM WITH IT
 				11 - FINAL PART ONCE ALL IS WORKING IS TO PUT THE REGISTRATION WITHIN A TRANSACTION - CODE FOR DEMO CODE AND TO WRITE SMALL ARTICLE ABOUT
 			*/
 
