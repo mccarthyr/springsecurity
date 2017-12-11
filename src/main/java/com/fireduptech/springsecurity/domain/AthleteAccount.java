@@ -12,10 +12,6 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-//import java.util.Date;  THIS IS THE OLD API...
-//MySQL Date format:
-//2017-11-07
-
 
 import java.time.*;
 import java.time.format.*;
@@ -33,6 +29,7 @@ public class AthleteAccount {
 	@Id
 	private String email;
 
+
 	@Column( name = "first_name" )
 	private String firstName;
 
@@ -45,7 +42,6 @@ public class AthleteAccount {
 	@Column( name = "primary_activity" )
 	private String primaryActivity;
 
-	//@Temporal( value = TemporalType.DATE )  MIGHT NO NEED THIS NOW DUE TO JAVA 8 LOCALDATE API FORMAT...
 	@Column( name = "registration_date" )
 	private LocalDate registrationDate;   // = LocalDate.now() 
 
@@ -121,9 +117,10 @@ public class AthleteAccount {
 
 	@Override
 	public String toString() {
-		return "AthleteAccount [id=" + id + ", email="  + email + ", firstName=" + firstName 
+/*		return "AthleteAccount [id=" + id + ", email="  + email + ", firstName=" + firstName 
 						+ ", lastName=" + lastName + ", accountType=" + accountType 
-						+ ", primaryActivity=" + primaryActivity + "]";
+						+ ", primaryActivity=" + primaryActivity + "]";*/
+		return this.email;
 	}
 
 
@@ -132,7 +129,7 @@ public class AthleteAccount {
 	// to a new created instance which will not have any identifier value generated for it yet.
 	@Override
 	public boolean equals( Object obj ) {
-
+		/*
 		if ( !( obj instanceof AthleteAccount ) ) {
 			return false;
 		}
@@ -140,7 +137,7 @@ public class AthleteAccount {
 		AthleteAccount ac = (AthleteAccount) obj;
 		if ( !ac.getEmail().equals( this.getEmail() ) ) {
 			return false;
-		}
+		}*/
 
 		return true;
 	}

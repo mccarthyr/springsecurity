@@ -10,6 +10,9 @@ import org.springframework.data.repository.CrudRepository;
 
 import com.fireduptech.springsecurity.domain.AthleteAccount;
 
+import org.springframework.transaction.annotation.Transactional;
+
+import org.springframework.data.jpa.repository.Modifying;
 
 //import org.springframework.stereotype.Repository;
 
@@ -18,9 +21,15 @@ import com.fireduptech.springsecurity.domain.AthleteAccount;
 //public interface AthleteAccountRepository extends JpaRepository<AthleteAccount, Integer> {
 //public interface AthleteAccountRepository extends Repository<AthleteAccount, Integer> {
 //public interface AthleteAccountRepository extends CrudRepository<AthleteAccount, Long> {
-public interface AthleteAccountRepository extends Repository<AthleteAccount, String> {
 
 
+
+//public interface AthleteAccountRepository extends Repository<AthleteAccount, String> {
+//@Transactional
+public interface AthleteAccountRepository extends JpaRepository<AthleteAccount, Integer> {
+
+	//@Modifying
+	//@Transactional
 	AthleteAccount save( AthleteAccount entity );
 
 

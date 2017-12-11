@@ -10,11 +10,21 @@
         http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
         http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
 
+
+<!--
 	<context:component-scan
-		base-package="com.fireduptech.springsecurity.domain, com.fireduptech.springsecurity.dao, com.fireduptech.springsecurity.service" />
+		base-package="com.fireduptech.springsecurity.web, com.fireduptech.springsecurity.domain, com.fireduptech.springsecurity.dao, com.fireduptech.springsecurity.service, com.fireduptech.springsecurity.repository" />
+-->
+
+
+
+<context:component-scan base-package="com.fireduptech.springsecurity.domain, com.fireduptech.springsecurity.dao, com.fireduptech.springsecurity.service" />
+
 
 
 	<context:property-placeholder location="classpath*:META-INF/config/database.properties" />
+
+
 
 	<bean class="org.apache.commons.dbcp2.BasicDataSource" destroy-method="close" id="dataSource" >
 		<property name="driverClassName" value="${database.driverClassName}" />
@@ -47,12 +57,13 @@
 		<prop key="hibernate.id.new_generator_mappings">false</prop>
 	</util:properties>
 	
-	<!-- The <annotation-driven> element of Spring's TX Schema enables Declarative Transaction Management -->
+	<!-- The <annotation-driven> element of Spring's TX Schema enables Declarative transactionManageraction Management -->
 
 	<tx:annotation-driven transaction-manager="transactionManager" />
 
 	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager" >
-		<constructor-arg ref="entityManagerFactory" />
+		<!--<constructor-arg ref="entityManagerFactory" />-->
+		<property name="entityManagerFactory" ref="entityManagerFactory" />
 	</bean>
 
 

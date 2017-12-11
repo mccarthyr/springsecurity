@@ -155,7 +155,6 @@ EVERY URL LISTED HERE WILL HAVE /helloSpringSecurity/ PUT IN FRONT OF IT (set in
 	</beans:bean>
 
 
-
 	<beans:bean id="lookupStrategy" class="org.springframework.security.acls.jdbc.BasicLookupStrategy" >
 		<beans:constructor-arg ref="dataSource" />
 		<beans:constructor-arg ref="aclCache" />
@@ -186,6 +185,8 @@ EVERY URL LISTED HERE WILL HAVE /helloSpringSecurity/ PUT IN FRONT OF IT (set in
 		<beans:constructor-arg ref="dataSource" />
 		<beans:constructor-arg ref="lookupStrategy" />
 		<beans:constructor-arg ref="aclCache" />
+		<beans:property name="classIdentityQuery" value="SELECT @@IDENTITY" />
+		<beans:property name="sidIdentityQuery" value="SELECT @@IDENTITY" />
 	</beans:bean>
 
 

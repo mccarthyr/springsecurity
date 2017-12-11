@@ -5,6 +5,9 @@ import java.util.List;
 import java.util.HashMap;
 import java.util.Map;
 
+import java.time.*;
+import java.time.format.*;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -17,9 +20,7 @@ import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 
-
 import org.springframework.stereotype.Repository;
-
 
 import com.fireduptech.springsecurity.domain.AthleteAccount;
 
@@ -29,8 +30,6 @@ public class AthleteAccountDaoImpl implements AthleteAccountDao {
 
 	@Autowired
 	private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
-
-
 
 
 	@Override
@@ -58,8 +57,7 @@ public class AthleteAccountDaoImpl implements AthleteAccountDao {
 						return acd;
 					}
 				} );
-
-	}	// End of method getAthleteAccount()...
+	}
 
 
 	@Override
@@ -88,15 +86,14 @@ public class AthleteAccountDaoImpl implements AthleteAccountDao {
 						return acds;
 					} 
 				});
-
-	}	// End of method getAllAthleteAccounts()...
+	}
 
 
 	@Override
 	public void saveAthleteAccount(AthleteAccount athleteAccount ) {
 
-		final String sql = "insert into athlete_account( account_type, first_name, last_name, email, primary_activity ) "
-												+ "values( :account_type, :name, :email, :primary_activity )";
+		final String sql = "insert into athlete_account( account_type, first_name, last_name, email, primary_activity, registration_date ) "
+												+ "values( :account_type, :first_name, :last_name, :email, :primary_activity, :registration_date )";
 
 		Map<String, String> namedParams = new HashMap<String, String>();
 		namedParams.put( "account_type", athleteAccount.getAccountType() );
@@ -104,17 +101,18 @@ public class AthleteAccountDaoImpl implements AthleteAccountDao {
 		namedParams.put( "last_name", athleteAccount.getLastName() );
 		namedParams.put( "email", athleteAccount.getEmail() );
 		namedParams.put( "primary_activity", athleteAccount.getPrimaryActivity() );
+		
+		LocalDate localDate = LocalDate.now();
+		String formattedString = localDate.format(DateTimeFormatter.ISO_LOCAL_DATE);	// e.g. 2017-11-07
+
+		namedParams.put( "registration_date", formattedString );
 
 		SqlParameterSource sqlParams = new MapSqlParameterSource( namedParams );
 		KeyHolder keyHolder = new GeneratedKeyHolder();
 		namedParameterJdbcTemplate.update( sql, sqlParams, keyHolder );
 
 		athleteAccount.setId( keyHolder.getKey().intValue() );
-
-		//athleteAccount.setId( keyHolder.getKey().longValue() );
-
-	}	// End of method saveAthleteAccount()...
-
+	}
 
 
 	@Override
@@ -125,8 +123,7 @@ public class AthleteAccountDaoImpl implements AthleteAccountDao {
 		SqlParameterSource namedParameters = new MapSqlParameterSource( "athleteAccountId", athleteAccountId );
 
 		namedParameterJdbcTemplate.update( sql, namedParameters );
-
-	}	// End of method closeAthleteAccount()...
+	}
 
 
 
@@ -144,15 +141,14 @@ public class AthleteAccountDaoImpl implements AthleteAccountDao {
 		namedParams.put( "email", modifiedAthleteAccount.getEmail() );
 		namedParams.put( "primary_activity", modifiedAthleteAccount.getPrimaryActivity() );
 		namedParams.put( "athleteAccountId", Integer.toString( modifiedAthleteAccount.getId() ) );
-//		namedParams.put( "athleteAccountId", Long.toString( modifiedAthleteAccount.getId() ) );
 
 		SqlParameterSource sqlParams = new MapSqlParameterSource( namedParams );
 
 		namedParameterJdbcTemplate.update( sql, sqlParams );
-
-	}	// End of method editAthleteAccount()...
+	}
 
 
 
 }
+
 

@@ -72,7 +72,8 @@ public class User {
 
 	@Override
 	public String toString() {
-		return "User [username=" + username + ", enabled=" + enabled +"]";
+		//return "User [username=" + username + ", enabled=" + enabled +"]";
+		return this.username;
 	}
 
 	@Override

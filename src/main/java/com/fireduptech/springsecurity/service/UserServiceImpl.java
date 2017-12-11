@@ -23,77 +23,75 @@ import com.fireduptech.springsecurity.repository.AuthoritiesRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import org.springframework.transaction.annotation.Transactional;
 
-
-/*
-	*** NEED IN UPGRADE VERSION OF THIS TO DEAL WITH THROW EXCEPTIONS WHEN UPDATING THE ACL TABLES SO CAN STOP IF SOMETHING GOES WRONG AT THIS POINT OR 
-				ELSE LET THE TRANSACTION STUFF DEAL WITH IT ???
-*/
 
 
 @Service
 public class UserServiceImpl implements UserService {
 
+	final String AUTHORITY_DEFAULT_REGISTERED_USER = "ROLE_ATHLETE";
 
 	@Autowired
-	private AthleteAccountRepository athleteAccountRepository;
+	protected AthleteAccountRepository athleteAccountRepository;
 
 	@Autowired
-	private UserRepository userRepository;
+	protected UserRepository userRepository;
 
 	@Autowired
-	private AuthoritiesRepository authoritiesRepository;
+	protected AuthoritiesRepository authoritiesRepository;
 
 	@Autowired
-	private PasswordEncoder passwordEncoder;
+	protected PasswordEncoder passwordEncoder;
 
- 
-
-	public User registerNewUserAccount( final UserDto userDto ) {
-
-		/*
-		if ( emailExists( accountDto.getEmail() ) ) {
-			throw new EmailExistsException( "There is an account already registered with that email address: " + accountDto.getEmail() );
-		}*/
-
-
-		AthleteAccount newAthleteAccount = new AthleteAccount();
-		
-		String email = userDto.getEmail();
-		newAthleteAccount.setEmail( email );
-
-		String password = userDto.getPassword();
-
-		newAthleteAccount.setFirstName( userDto.getFirstName() );
-		newAthleteAccount.setLastName( userDto.getLastName() );
-		newAthleteAccount.setAccountType( userDto.getAccountType() );
-		newAthleteAccount.setPrimaryActivity( userDto.getPrimaryActivity() );		
-
-
-		// @TODO - SETTING OF THE PASSWORD IS DONE ON THE USERS TABLE - THIS WILL BE DEALTH WITH SEPARATELY WITH A DIFFERENT SERVICE METHOD AND WITHIN A TRANSACTION BLOCK <---
-
-
-		AthleteAccount registeredAthlete = athleteAccountRepository.save( newAthleteAccount );
-
-		User registeredAclUser =  updateAclTablesWithNewRegisteredAthlete( email, password );
-		
-
-		//BEST TO RETURN THE USER ENTITY HERE AS IT WILL CONTAIN THE USERNAME AND PASSWORD (WHICH EVENTUALLY WILL BE ENCODED) AND USE THAT TO LOG IN...
-
-		return registeredAclUser;
-
-		//return registeredAthlete;
-
-	}	// End of method registerNewUserAccount()...
 
 
 	/*
-	Users 			- username, password, enabled 
-	Authorities - username, authority
+	 * @param - UserDTO object - contains information from User Registration form.
+	 *
+	 * @Transactional - This method is Transactionsal as defined in its interface.
+	 */
+	@Override
+	public User registerNewUserAccount( final UserDto userDto ) throws EmailExistsException {
 
-	BY DEFAULT EACH NEW REGISTERED USER GETS A ROLE OF ROLE_ATHLETE - this is hardcoded into this demo version...could look at a more sophisticated registration system if was to make this commercial...
+		String email = userDto.getEmail();
+		String password = userDto.getPassword();
+
+		if ( emailExists( email ) ) {
+			throw new EmailExistsException( "There is an account already registered with that email address:" );
+		}
+
+		/*  This is no longer needed as creating a new AthleteAccount it done through the AthleteController 
+				once the new User is registered and logged in.
+
+		AthleteAccount newAthleteAccount = new AthleteAccount();
+		newAthleteAccount.setEmail( email );
+		newAthleteAccount.setFirstName( userDto.getFirstName() );
+		newAthleteAccount.setLastName( userDto.getLastName() );
+		newAthleteAccount.setAccountType( userDto.getAccountType() );
+		newAthleteAccount.setPrimaryActivity( userDto.getPrimaryActivity() );
+		AthleteAccount registeredAthlete = athleteAccountRepository.save( newAthleteAccount );
+		*/
+
+		User registeredAclUser = null;	
+
+		registeredAclUser =  updateAclTablesWithNewRegisteredAthlete( email, password );
+		return registeredAclUser;
+
+	}
+
+
+
+	/*
+	 * @param - String - email
+	 * @param - String - password
+	 *
+	 * Creates entries in the users and authorities ACL tables for the newly registered user.
+	 * If there is an issue with this then a transactional rollback will happen as this method is
+	 * under the @Transactional scope.
 	*/
-	private User updateAclTablesWithNewRegisteredAthlete( final String email, final String password ) {
+	private User updateAclTablesWithNewRegisteredAthlete( final String email, final String password )  {
+
 
 		// Save to the Users ACL
 		Integer i = new Integer(1);
@@ -103,36 +101,49 @@ public class UserServiceImpl implements UserService {
 
 		User user = new User( email, encryptedPassword, enabled );
 
-
-
 		User registeredAclUser = userRepository.save( user );
 
-		// Save to the Authorities ACL
-		AuthorityId authorityId = new AuthorityId( user, "ROLE_ATHLETE" );
+
+		/* 
+			NOTE: To check that the @Transactional is working, uncomment the 'throw new ...' exception line below while then also
+						commenting out the rest of the method. This will
+		 				will throw the required RuntimeException that will cause a Transactional Rollback and the values that would have been entered
+						in the athlete_account and users tables will be removed so they do not fall out of sync.						
+						throw new RuntimeException( "FORCED RUNTIME EXCEPTION" );
+		*/
+
+
+
+		// Save to the Authorities ACL - 'ROLE_ATHLETE' is the hardcoded default Role for demo code 
+		AuthorityId authorityId = new AuthorityId( user, AUTHORITY_DEFAULT_REGISTERED_USER );
 
 		Authorities authorities = new Authorities();
 		authorities.setId( authorityId );
 
 		Authorities registeredAuthority = authoritiesRepository.save( authorities );
-
 		return registeredAclUser;
 
-
-	}	// End of method updateAclTablesWithNewRegisteredAthlete()...
+	}
 
 	
 
+	/*
+	 * In this demo project the domain User 'username' field contains the email as
+	 * the email is being used as the primary Id. The 'username' field has been left
+	 * as it was originally called in the ACL users table when setup.
+	 */
 	private boolean emailExists( String email ) {
-		//return true;
-		return false;
+
+		User user = userRepository.findByUsername( email );
+		if ( user != null ) {
+			return true;
+		} else {
+			return false;
+		}
+
 	}
 
-
-
-
-
-}	// End of class UserService...
-
+}
 
 
 

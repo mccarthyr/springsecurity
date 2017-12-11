@@ -15,6 +15,9 @@
 		</style>
 	</head>
 	<body>
+
+		<c:out value="${registrationErrorFlashMessage}"/>
+
 		<form:form name="register" method="POST" action="${pageContext.request.contextPath}/athleteaccountv2/register/user?acAction=register" modelAttribute="user">
 			<security:csrfInput />
 			<table align="left" style="padding-left: 300px;">
@@ -25,14 +28,23 @@
 							<tr>
 								<td style="font-family: 'arial'; font-size: 12px; font-weight: normal; color: red;"><c:out value="${param.exceptionMsg}"/></b></td>
 							</tr>
+
 							<tr>
 								<td class="td"><b>Password:</b></td>
 								<td class="td"><form:input type="password" path="password" value="" /></td>
 							</tr>
+
 							<tr>
 								<td class="td"><b>Confirm Password:</b></td>
-								<td class="td"><input type="password" name="confirmPassword" value="" /></td> <!-- NOTE USING THE FORM OR PATH SYNTAX ON THIS ONE AS NOT MAPPING IT TO THE BACKING OBJECT... -->
+								<td class="td"><form:input type="password" path="confirmPassword" value="" /></td> <!-- NOT USING THE FORM OR PATH SYNTAX ON THIS ONE AS NOT MAPPING IT TO THE BACKING OBJECT... -->
+									
+									<font style="color: #C11B17;">
+										<form:errors path="confirmPassword" /> 
+										<!-- Automatically set by Binding Validation data in the RegistrationController registerNewUserAccount() method -->
+									</font>
+							
 							</tr>
+							
 							<tr>
 								<td class="td"><b>Firstname:</b></td>
 								<td class="td"><form:input type="text" path="firstName" value="" />

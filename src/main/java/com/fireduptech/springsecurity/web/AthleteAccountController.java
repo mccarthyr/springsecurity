@@ -27,7 +27,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-//import org.apache.commons.lang3.math.NumberUtils;  - This is DEPRECATED
 import org.apache.commons.lang.math.NumberUtils;
 
 import com.fireduptech.springsecurity.domain.AthleteAccount;
@@ -43,9 +42,8 @@ public class AthleteAccountController {
 	private AthleteAccountService athleteAccountService;
 
 	/*
-	 * This will list all the Athlete Accounts ONLY for ROLE_ADMIN
+	 * This will list all the Athlete Accounts only for ROLE_ADMIN
 	 */
-
 	@SuppressWarnings("unchecked")
 	@RequestMapping( value= "/list", method = RequestMethod.GET )
 	public ModelAndView listAthleteAccounts( Principal principal ) {
@@ -58,18 +56,18 @@ public class AthleteAccountController {
 
 		if ( iterator.hasNext() ) {
 
-			//String role = ((GrantedAuthority) iterator.next()).getAuthority();  This compiled but with a warning that cast (GrantedAuthority) was redundant
-			/*String role = (iterator.next()).getAuthority();
+			/*
+			String role = (iterator.next()).getAuthority();
 			if ( role.equalsIgnoreCase( "ROLE_ADMIN" ) ) {
-*/
+			*/
 				// acdList - athlete account details list
 				modelData.put( "acdList", athleteAccountService.getAllAthleteAccounts() );
-	/*		} */
+			/*		
+			} */
 		}
 
 		return new ModelAndView( "athleteAccountsList", modelData );
-
-	}	// End of method listAthleteAccounts()...
+	}
 
 
 
@@ -80,9 +78,9 @@ public class AthleteAccountController {
 		athleteAccount.setEmail( "You must enter a valid email" );
 		ModelMap modelData = new ModelMap();
 		modelData.addAttribute( athleteAccount );
-		return new ModelAndView( "createAthleteAccountForm", modelData );
 
-	}	// End of method showOpenAthleteAccountForm()...
+		return new ModelAndView( "createAthleteAccountForm", modelData );
+	}
 
 
 
@@ -131,18 +129,16 @@ public class AthleteAccountController {
 		athleteAccount.setAccountType( accountType );
 		athleteAccount.setPrimaryActivity( primaryActivity );
 
-//		athleteAccount.setAccountId( principal.getName() );			<--- NOTE NOTE NOTE : REMOVED THIS DURING THE JPA UPGRADE ***
-
 
 		if ( modelData.size() > 0 ) { // This means that there are Validation Errors
 			modelData.put( "athleteAccount", athleteAccount );
 			return new ModelAndView( "createAthleteAccountForm", modelData );
 		} else {
-			athleteAccountService.saveAthleteAccount( athleteAccount );
+			athleteAccountService.saveAthleteAccount( athleteAccount );	
 			return new ModelAndView( "redirect:/athleteaccountv2/athleteAccount/list" );
 		}
+	}
 
-	} // End of method creatAthleteAccount()...
 
 
 	@RequestMapping( params = "acAction=edit", method = RequestMethod.POST )
@@ -186,57 +182,47 @@ public class AthleteAccountController {
 		}
 
 
-		/* Don't need this, not on display in previous screen...
-		if ( !NumberUtils.isNumber(id) ) {
-			modelData.put( "error.id", "invalid Id" );
-		}*/
-
-
 		AthleteAccount athleteAccount = new AthleteAccount();
 
 		athleteAccount.setId( Integer.parseInt( id ) );
-
 		athleteAccount.setEmail( email );
 		athleteAccount.setFirstName( firstName );
 		athleteAccount.setLastName( lastName );
 		athleteAccount.setPrimaryActivity( primaryActivity );
 		athleteAccount.setAccountType( accountType );
 
-//		athleteAccount.setAccountId( principal.getName() );
 
 		if ( modelData.size() > 0 ) {	// This means that there are Validation Errors
 			modelData.put( "athleteAccount", athleteAccount );
 			return new ModelAndView( "editAthleteAccountForm", modelData );
 		} else {
 			athleteAccountService.editAthleteAccount( athleteAccount );
-			return new ModelAndView( "redirect:/athleteaccountv2/athleteAccount/list" );
-																
+			return new ModelAndView( "redirect:/athleteaccountv2/athleteAccount/list" );																
 		}
+	}
 
-	} // End of method editAthleteAccount()...
 
 
 	@RequestMapping( params = "acAction=close", method = RequestMethod.GET )
 	public String closeAthleteAccount( @RequestParam( value = "athleteAccountId" ) int aaId ) {
+
 		athleteAccountService.closeAthleteAccount( aaId );
+
 		return "redirect:/athleteaccountv2/athleteAccount/list";
 	}
 
 
-	@RequestMapping( params = "acAction=view", method = RequestMethod.GET )
-	//public ModelAndView viewAthleteAccount( HttpServletRequest request ) {
-	public ModelAndView viewAthleteAccount( @RequestParam( value = "athleteAccountId" ) int aaId ) {
 
-		//AthleteAccount athleteAccount = athleteAccountService.getAthleteAccount( 
-		//	Integer.parseInt( request.getParameter("athleteAccountId") ) );
+	@RequestMapping( params = "acAction=view", method = RequestMethod.GET )
+	public ModelAndView viewAthleteAccount( @RequestParam( value = "athleteAccountId" ) int aaId ) {
 
 		AthleteAccount athleteAccount = athleteAccountService.getAthleteAccount( aaId );
 
 		ModelMap modelMap = new ModelMap();
 		modelMap.addAttribute( athleteAccount );
-		return new ModelAndView( "editAthleteAccountForm", modelMap );
 
-	}	// End of method viewAthleteAccount()...
+		return new ModelAndView( "editAthleteAccountForm", modelMap );
+	}
 
 
 
@@ -245,21 +231,18 @@ public class AthleteAccountController {
 
 		int athleteAccountId = Integer.parseInt( request.getParameter( "athleteAccountId" ) );
 		athleteAccountService.provideAccessToAdmin( athleteAccountId );
-
 		redirectAttr.addAttribute( "msg", "Admin access provided to the athlete account with id: " + athleteAccountId );
-		return "redirect:/athleteaccountv2/athleteAccount/list";
 
-	}	// End of method provideAccessToAdmin()...
+		return "redirect:/athleteaccountv2/athleteAccount/list";
+	}
 
 
 
 	@ExceptionHandler
 	public ModelAndView handleException( Exception ex ) {
-		ModelAndView mav = new ModelAndView( "error", "msg", ex.getMessage() );
+		ModelAndView mav = new ModelAndView( "error", "msg", "--FROM ATHLETE CONTROLLER: --> " + ex.getMessage() );
+
 		return mav;
 	}
 
-} // End of class AthleteAccountController...
-
-
-
+}

@@ -20,6 +20,7 @@ import com.fireduptech.springsecurity.dao.AthleteAccountDao;
 import com.fireduptech.springsecurity.domain.AthleteAccount;
 
 
+
 @Service
 public class AthleteAccountServiceImpl implements AthleteAccountService {
 
@@ -30,15 +31,17 @@ public class AthleteAccountServiceImpl implements AthleteAccountService {
 	private MutableAclService mutableAclService;
 
 
-
 	private void addPermission( int athleteAccountId, Sid recipient, Permission permission ) {
 
 		MutableAcl acl;
 		ObjectIdentity oid = new ObjectIdentityImpl( AthleteAccount.class, athleteAccountId );
 
 		try {
+
 			acl = (MutableAcl) mutableAclService.readAclById( oid );
-		} catch ( NotFoundException nfe ) {
+
+		} catch (NotFoundException nfe) {
+
 			acl = mutableAclService.createAcl( oid );
 		}
 
@@ -46,8 +49,9 @@ public class AthleteAccountServiceImpl implements AthleteAccountService {
 		mutableAclService.updateAcl( acl );
 
 		System.out.println( "Added permission " + permission + " Sid " 
-				+ recipient + " athleteAccountId " + athleteAccountId );
+						+ recipient + " athleteAccountId " + athleteAccountId );
 	}
+
 
 
 	@Override
@@ -55,10 +59,13 @@ public class AthleteAccountServiceImpl implements AthleteAccountService {
 		return athleteAccountDao.getAthleteAccount( athleteAccountId );
 	}
 
+
 	@Override
 	public List<AthleteAccount> getAllAthleteAccounts() {
 		return athleteAccountDao.getAllAthleteAccounts();
 	}
+
+
 
 	@Override
 	public void saveAthleteAccount(AthleteAccount athleteAccount ) {
@@ -70,7 +77,7 @@ public class AthleteAccountServiceImpl implements AthleteAccountService {
 						BasePermission.READ );
 		addPermission( athleteAccount.getId(), 
 						new PrincipalSid( SecurityContextHolder.getContext().getAuthentication().getName() ), 
-						BasePermission.WRITE );
+						BasePermission.WRITE );						
 	}
 
 
@@ -100,19 +107,5 @@ public class AthleteAccountServiceImpl implements AthleteAccountService {
 	}
 
 
-	/*
-	 ****** FURTHER SAMPLE OPTION TO BUILD IN LATER ******
-	 	@Override
-		public void provideAccessToAdmin(int fixedDepositId) {
-			addPermission(fixedDepositId, new PrincipalSid("admin"),
-					BasePermission.READ);
-			addPermission(fixedDepositId, new PrincipalSid("admin"),
-					BasePermission.ADMINISTRATION);
-			addPermission(fixedDepositId, new PrincipalSid("admin"),
-					BasePermission.DELETE);
-		}
-	*/
-
 }
-
 

@@ -13,7 +13,14 @@
 
 	<mvc:view-controller path="/homepage.html" view-name="homepage" />
 
-	<context:component-scan base-package="com.fireduptech.springsecurity.web, com.fireduptech.springsecurity.service " />
+
+	<context:component-scan base-package="com.fireduptech.springsecurity.web " />
+
+
+<!--
+	<context:component-scan 
+		base-package="com.fireduptech.springsecurity.web, com.fireduptech.springsecurity.domain, com.fireduptech.springsecurity.dao, com.fireduptech.springsecurity.service, com.fireduptech.springsecurity.repository" />
+-->
 
 
 	<bean name="helloWorldController" class="com.fireduptech.springsecurity.web.HelloWorldController" />

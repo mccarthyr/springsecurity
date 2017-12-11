@@ -6,12 +6,15 @@ import com.fireduptech.springsecurity.domain.User;
 
 import com.fireduptech.springsecurity.validation.EmailExistsException;
 
+
+import org.springframework.transaction.annotation.Transactional;
+
+
 public abstract interface UserService {
 
 
-//	public abstract User registerNewUserAccount( UserDto accountDto ); //throws EmailExistsException;
-
-public abstract User registerNewUserAccount( UserDto userDto ); //throws EmailExistsException;
+	@Transactional
+	public abstract User registerNewUserAccount( UserDto userDto ) throws EmailExistsException;
 
 
 }

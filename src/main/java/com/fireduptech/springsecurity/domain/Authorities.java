@@ -15,19 +15,19 @@ import javax.persistence.CascadeType;
 import javax.persistence.EmbeddedId;
 
 
+/*
+---------------------------------------------------------------------------------------------------------------
+NOTE: IN RELATION TO JPA ENTITY PRIMARY KEY REQUIREMENT AND A DATABASE TABLE THAT DOES NOT HAVE A PRIMARY KEY
+---------------------------------------------------------------------------------------------------------------
 
-/* NOTE NOTE NOTE 	--- ABOUT LACK OF PRIMARY KEY AND JPA REQUIREMENTS ---
+The database table for this Entity ('authorities' - standard ACL set up) does not have a Primary Key but JPA 
+requires every Entity to have an @Id (Primary Key).
 
-THE TABLE FOR THIS DOES NOT HAVE A PRIMARY KEY BUT JPA REQUIRES EVERY ENTITY TO HAVE AN @ID (PRIMARY KEY)...
-SEE ABOUT USING A COMPOSITE KEY OF BOTH FIELDS FOR THE PRIMARY KEY ON THE ENTITY ???  NEED THIS FOR SETTING UP THE REPOSITORY INTERFACE ...
-
-@EmbeddedId is used to embed a class. The class that is embedded contains a COMPOSITE PRIMARY KEY...It is the class name then that is used in the Repository Interface name.
+On the authorities database table the combination of the two fields 'username' and 'authorities' is unique so 
+setting a unique constraint on those two columns here. 
+The actual column names does not appear as properties directly in this Entity as using @EmbeddedId which sets up another class called
+AuthorityId that contains a Compostite Primary Key of both the username and authority fields.
 */
-
-
-// ******** LOOK AT MAKING THE EMBEDDED EBTITY IMPLEMENTING SERIALIZABLE WHICH IT MUST - CHECK DOCUMENTATION ON THIS IF WRITE UP ABOUT IT ... *********
-
-// RE-WRITE THIS USING EMBEDDED ANNOTATION CLASS AND SET UP THE USERNAME/AUTHORITY FIELD PAIR AS A COMPOSITE PRIMARY KEY (WHICH THEY ARE NOT IN THE DATABASE RIGHT NOW) AND SEE HOW IT GOES ???
 
 
 @Entity( name = "Authorities" )
@@ -56,32 +56,6 @@ public class Authorities {
 		this.id = id;
 	}
 
-
-
-	/*
-	@Override
-	public String toString() {
-		return "Authority [username=" + username + ", role=" + authority +"]";
-	}
-
-
-	@Override
-	public boolean equals( Object obj ) {
-		
-		if ( !( obj instanceof Authorities ) ) {
-			return false;
-		}
-
-		Authorities authorities = (Authorities) obj;
-		if ( !authorities.getUsername().equals( this.getUsername() ) || !authorities.getAuthority().equals( this.getAuthority() ) ) {
-			return false;
-		}
-
-		return true;
-	}
-	*/
-
-
-}	// End of class Authorities...
+}
 
 

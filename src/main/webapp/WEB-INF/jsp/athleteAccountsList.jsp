@@ -35,6 +35,10 @@
 	</head>
 	<body>
 
+	<security:authorize access="isAuthenticated()">
+		authenticated as <security:authentication property="principal.username"/>
+	</security:authorize>
+
 		<c:out value="${successfulRegistrationFlashMessage}"/>
 		<form id="logoutForm" method="POST" action="${pageContext.request.contextPath}/athleteaccountv2/logout" >
 			<security:csrfInput/>
@@ -71,9 +75,8 @@
 							<tr bgcolor="#99CCFF">
 								<th class="th">ID</th>
 								<security:authorize access="hasRole('ROLE_ADMIN')">
-									<th class="th">Athlete</th>
+									<th class="th">Account Type</th>
 								</security:authorize>
-								<th class="th">Account Type</th>
 								<th class="th">Firstname</th>
 								<th class="th">Lastname</th>
 								<th class="th">Email</th>
