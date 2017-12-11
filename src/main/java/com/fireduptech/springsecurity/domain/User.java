@@ -29,8 +29,9 @@ public class User {
 	private short enabled;
 
 	// The Authorities has a username FK to this entity
-	@OneToMany( cascade = CascadeType.ALL, mappedBy = "id.username" )  // NOTE - UPDATED THE MAPPING TO USED THE EMBEDDED CLASS COMPOSITE PRIMARY KEY STRUCTURE NOW...
+	@OneToMany( cascade = CascadeType.ALL, mappedBy = "id.username" )
 	private Set<Authorities> authorities;
+	// Note the 'id.username' in the mappedBy property above. This is using the embedded class composite primary key structure (AuthorityId class)
 
 
 	public User() {}

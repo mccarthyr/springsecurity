@@ -111,8 +111,7 @@ public class UserDto {
 		this.primaryActivity = primaryActivity;
 	}
 
-
-}	// End of class UserDto...
+}
 
 
 

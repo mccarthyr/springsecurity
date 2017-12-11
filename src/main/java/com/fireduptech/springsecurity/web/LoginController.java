@@ -15,12 +15,6 @@ public class LoginController {
 
 
 
-	//@RequestMapping( "/loginNewUser", method = RequestMethod.POST )
-
-
-
-
-
 }
 
 

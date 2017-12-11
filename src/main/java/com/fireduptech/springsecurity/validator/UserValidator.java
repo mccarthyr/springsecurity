@@ -27,15 +27,7 @@ public class UserValidator implements Validator {
 		if ( !password.equals( confirmPassword ) ) {
 			errors.rejectValue( "confirmPassword", "error.password.notMatching", "passwords not matching" );
 		}
-		
 
-		/*
-		String name = userDto.getFirstName();
-		if ( !name.equals( "Richard" ) ) {
-			//errors.reject( "Incorrect First Name" );
-			errors.rejectValue( "firstName", "error.firstName.incorrect", "Incorrect First Name" );
-		}
-		*/
 
 		/*
 		String email = userDto.getEmail();

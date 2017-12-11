@@ -5,8 +5,6 @@
 	<head>
 		<title>Successful New Account Registration</title>
 	</head>
-	<!-- ****** NOTE NOTE NOTE: JUST SHOWING PASSWORD HERE FOR WORK FLOW TESTING TO CAN
-															SEE ENCODER IN ACTION WHEN PUT THAT IN PLACE, WILL BE REMOVED FOR FINAL DEMO ****** -->
 
 	<body>
 		<h2>Successful New Account Registration</h2>
@@ -37,10 +35,3 @@
 
 </html>
 
-
-<!--
-<c:forEach items="${userForms}" var="userForm">     
-   <c:out value="${userForm.name}"/>
-   <c:out value="${userForm.address}"/>
-</c:forEach>
--->
