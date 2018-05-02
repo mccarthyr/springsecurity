@@ -1,13 +1,16 @@
-# Spring Security Learning Project
+# Spring Security Learning Project (using Form Login & ACL Permissions)
 
-## NOTE: This is still very much a learning-development project so the source code is littered with comments, some useful but most are not. This will all be cleaned up and a final release version uploaded which will be marked as such at the top of this README file when it is shortly.
+This project is aimed at provided a code base to aide in the learning of Spring Security. The main purpose is to provide a basic complete working codebase to extend from or use parts of to get up and running quickly with learning Spring Security.
+It comes with a full form based login and registration system using basic JSP on the front end and Spring on the backend, code compiled using Java 8 and uses a MySQL database for the Spring Security ACL (Access Control List) database entries which are used for permissions.
 
-![alt text](screenshots/SpringSecurity_WORKFLOW_Login.png "Login Screen")
+### Note
+As this is very much a learning project the code contains lots of comments. Some are useful and provide documentation while others may be development mode comments that have not yet been removed. 
 
-Once logged in you will get a listing screen or a default landing page. The listing screen will depend on existing entries and if you have permission to view them.
 
 ### Log-in page
 ![alt text](screenshots/SpringSecurity_WORKFLOW_Login.png "Login Screen")
+
+Once logged in you will get a listing screen or a default landing page. The listing screen will depend on existing entries and if you have permission to view them.
 
 ### Athlete listing page
 ![alt text](screenshots/SpringSecurity_WORKFLOW_AthleteListingPage2.png "Athlete Listing Screen")
