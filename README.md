@@ -4,6 +4,21 @@
 
 ![alt text](screenshots/SpringSecurity_WORKFLOW_Login.png "Login Screen")
 
+Once logged in you will get a listing screen or a default landing page. The listing screen will depend on existing entries and if you have permission to view them.
+
+![alt text](screenshots/SpringSecurity_WORKFLOW_Login.png "Login Screen")
+
+![alt text](screenshots/SpringSecurity_WORKFLOW_AthleteListingPage2.png "Athlete Listing Screen")
+
+The default landing page is just a basic text page. 
+![alt text](screenshots/SpringSecurity_WORKFLOW_DefaultLandingPage.png "Default Logged-in Landing Screen")
+
+Creating a new athlete account page.
+![alt text](screenshots/SpringSecurity_WORKFLOW_CreateAthleteAccountPage.png "Create New Athlete Account Screen")
+
+Edit existing athlete details.
+![alt text](screenshots/SpringSecurity_WORKFLOW_EditExistingPage.png "Edit Existing Athlete Account Screen")
+
 
 v1.0 release contains the basic secured hello world set up using in-memory users (configured in applicationContext-security.xml). Only when you have logged in will the message be displayed.
 https://github.com/mccarthyr/springsecurity/releases/tag/v1.0
