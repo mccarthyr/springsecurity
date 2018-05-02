@@ -22,7 +22,6 @@ To deploy from your project root to your Tomcat server:
 mvn tomcat7:redeploy -Dtomcat.username=<yourTomcatUsername> -Dtomcat.password=<yourTomcatPassword>
 ```
 http://tomcat.apache.org/maven-plugin-2.0/tomcat7-maven-plugin/plugin-info.html
-http://tomcat.apache.org/maven-plugin-2.0/tomcat7-maven-plugin/usage.html
 
 
 ### Project Structure
