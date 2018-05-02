@@ -30,3 +30,6 @@ v5.0 includes the use of the BCryptPasswordEncoded to encode a users password du
 
 The Spring ACL that is configured by default will match the encoded passwords for you when you log in the next time. Otherwise you would have to use the matches() method on the encoder to do this.
 https://github.com/mccarthyr/springsecurity/releases/tag/v5.0
+
+v6.0 - Final Release. Finished with user registration demo and logging in creating athlete accounts. This version implemented Transactions and full registration of new users on to the system while integrating them into the ACL database schema setup through the user of JPA.
+https://github.com/mccarthyr/springsecurity/releases/tag/v6.0
