@@ -8,17 +8,19 @@ As this is very much a learning project the code contains lots of comments. Some
 
 ### Set-up
 This project uses the Apache Tomcat Maven Plugin which is configued in the pom.xml
-`
-<dependency>
+
+``<dependency>
   <groupId>org.apache.tomcat.maven</groupId>
   <artifactId>tomcat7-maven-plugin</artifactId>
   <version>2.2</version>
 </dependency>
-`
+``
+
 To deploy from your project root to your Tomcat server:
-`mvn tomcat7:redeploy -Dtomcat.username=<yourTomcatUsername> -Dtomcat.password=<yourTomcatPassword>`
+``mvn tomcat7:redeploy -Dtomcat.username=<yourTomcatUsername> -Dtomcat.password=<yourTomcatPassword>``
 http://tomcat.apache.org/maven-plugin-2.0/tomcat7-maven-plugin/plugin-info.html
 http://tomcat.apache.org/maven-plugin-2.0/tomcat7-maven-plugin/usage.html
+
 
 ### Project Structure
 ![alt text](screenshots/SpringSecurity_ProjectListing.png "Project File Structure")
