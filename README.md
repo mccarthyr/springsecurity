@@ -23,6 +23,10 @@ mvn tomcat7:redeploy -Dtomcat.username=<yourTomcatUsername> -Dtomcat.password=<y
 ```
 http://tomcat.apache.org/maven-plugin-2.0/tomcat7-maven-plugin/plugin-info.html
 
+#### User Credentials
+Here is a list of the username/password combinations that work with the SQL database schema file that is attached.
+athlete1/test , admin/test , mccarthy.richard1111@gmail.com/test 
+
 
 ### Project Structure
 ![alt text](screenshots/SpringSecurity_ProjectListing.png "Project File Structure")
